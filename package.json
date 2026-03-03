@@ -1,0 +1,20 @@
+{
+  "name": "tamado",
+  "version": "0.0.1",
+  "private": true,
+  "description": "YouTube・Twitchの配信を1画面で複数同時視聴できるWebアプリ",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "scripts": {
+    "dev": "pnpm --filter frontend dev",
+    "build": "pnpm --filter frontend build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
