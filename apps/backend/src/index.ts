@@ -1,8 +1,16 @@
 import Fastify from 'fastify'
+import cors from '@fastify/cors'
 import { loggerConfig } from './config/logger.js'
 
 const fastify = Fastify({
   logger: loggerConfig,
+})
+
+await fastify.register(cors, {
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.FRONTEND_URL
+    : true,
+  credentials: true,
 })
 
 fastify.get('/health', async () => {
