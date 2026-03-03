@@ -1,7 +1,8 @@
 import Fastify from 'fastify'
+import { loggerConfig } from './config/logger.js'
 
 const fastify = Fastify({
-  logger: true,
+  logger: loggerConfig,
 })
 
 fastify.get('/health', async () => {
