@@ -1,6 +1,7 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import { loggerConfig } from './config/logger.js'
+import { errorHandler } from './plugins/errorHandler.js'
 
 const fastify = Fastify({
   logger: loggerConfig,
@@ -12,6 +13,8 @@ await fastify.register(cors, {
     : true,
   credentials: true,
 })
+
+await fastify.register(errorHandler)
 
 fastify.get('/health', async () => {
   return { status: 'ok' }
