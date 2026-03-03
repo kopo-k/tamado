@@ -4,7 +4,7 @@
   "private": true,
   "description": "YouTube・Twitchの配信を1画面で複数同時視聴できるWebアプリ",
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": ["esbuild", "@prisma/engines", "prisma"]
   },
   "scripts": {
     "dev": "pnpm --filter frontend dev",
