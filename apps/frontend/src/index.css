@@ -1,1 +1,82 @@
 @import 'tailwindcss';
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Apple風ミニマルパレット */
+@theme {
+  /* ライトモード */
+  --color-apple-bg: #FAFAFA;
+  --color-apple-bg-secondary: #F5F5F7;
+  --color-apple-card: #FFFFFF;
+  --color-apple-border: #E5E5EA;
+  --color-apple-text-primary: #1D1D1F;
+  --color-apple-text-secondary: #86868B;
+  --color-apple-blue: #007AFF;
+  --color-apple-green: #34C759;
+  --color-apple-red: #FF3B30;
+
+  /* ダークモード */
+  --color-apple-dark-bg: #000000;
+  --color-apple-dark-bg-secondary: #1C1C1E;
+  --color-apple-dark-card: #2C2C2E;
+  --color-apple-dark-border: #38383A;
+  --color-apple-dark-text-primary: #FFFFFF;
+  --color-apple-dark-text-secondary: #8E8E93;
+  --color-apple-dark-blue: #0A84FF;
+  --color-apple-dark-green: #30D158;
+  --color-apple-dark-red: #FF453A;
+
+  /* シャドウ */
+  --shadow-apple: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-apple-lg: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* フォント */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ベーススタイル */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-apple-bg);
+  color: var(--color-apple-text-primary);
+}
+
+/* ダークモード */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-apple-dark-bg);
+    color: var(--color-apple-dark-text-primary);
+  }
+}
+
+/* グリッドパターン背景（ライト）*/
+.light-grid {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* グリッドパターン背景（ダーク）*/
+.dark-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* グラスモルフィズム */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-apple-border);
+}
+
+.glass-dark {
+  background: rgba(44, 44, 46, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-apple-dark-border);
+}
