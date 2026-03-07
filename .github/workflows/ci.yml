@@ -27,13 +27,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint（コード品質チェック）
-        run: pnpm lint
+        run: pnpm --filter frontend lint
 
       - name: 型チェック
-        run: pnpm typecheck
+        run: pnpm --filter frontend typecheck
 
       - name: テスト
-        run: pnpm test
+        run: pnpm --filter frontend test
 
       - name: ビルド
-        run: pnpm build
+        run: pnpm --filter frontend build
