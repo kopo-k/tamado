@@ -27,7 +27,7 @@ describe('Loginpage', () => {
 
     // メール入力欄（placeholderに「メール」）が表示されているか
     expect(
-      screen.getByPlaceholderText(/メール/i)
+      screen.getByPlaceholderText(/email@example.com/i)
     ).toBeInTheDocument()
   })
 
@@ -36,7 +36,7 @@ describe('Loginpage', () => {
 
     // パスワード入力欄が表示されているか
     expect(
-      screen.getByPlaceholderText(/パスワード/i)
+      screen.getByPlaceholderText(/8文字以上/i)
     ).toBeInTheDocument()
   })
 
@@ -64,6 +64,15 @@ describe('Loginpage', () => {
     // パスワードリセットリンクが表示されているか
     expect(
       screen.getByRole('link', { name: /パスワード/i })
+    ).toBeInTheDocument()
+  })
+
+    it('メインページへのリンクが表示される', () => {
+    renderLoginPage()
+
+    // パスワードリセットリンクが表示されているか
+    expect(
+      screen.getByRole('link', { name: /メイン画面に戻る/i })
     ).toBeInTheDocument()
   })
 })
