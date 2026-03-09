@@ -73,7 +73,7 @@ return (
             type="submit"
             className="w-full py-3 bg-apple-blue hover:bg-apple-blue/90 dark:bg-appleDark-blue dark:hover:bg-appleDark-blue/90 disabled:opacity-50 rounded-lg font-medium transition-colors text-white"
           >
-            {'ログイン'}
+            {'登録する'}
           </button>
         </form>
 
