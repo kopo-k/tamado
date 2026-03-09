@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router'
+import userEvent from '@testing-library/user-event'
+import { BrowserRouter, MemoryRouter, Routes, Route } from 'react-router'
 import { SignupPage } from './SignupPage'
+import { LoginPage } from './LoginPage'
 
 describe('SignupPage', () => {
   const renderSignupPage = () => {
@@ -39,5 +41,24 @@ describe('SignupPage', () => {
   it('ログインリンクが表示される', () => {
     renderSignupPage()
     expect(screen.getByRole('link', { name: /ログイン/i })).toBeInTheDocument()
+  })
+
+  it('ログインリンクをクリックするとログインページに遷移する', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter initialEntries={['/signup']}>
+        <Routes>
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </MemoryRouter>
+    )
+
+    // 「ログイン」リンクをクリック
+    await user.click(screen.getByRole('link', { name: /ログイン/i }))
+
+    // ログインページに遷移したことを確認
+    expect(screen.getByRole('heading', { name: /ログイン/i })).toBeInTheDocument()
   })
 })
