@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router'
-import { Header } from './Header'
+import { Header } from '.'
 
 describe('Header', () => {
   it('ヘッダーが表示される', () => {
