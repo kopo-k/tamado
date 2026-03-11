@@ -29,7 +29,7 @@ describe('Sidebar', () => {
 
   it('テーマ切り替えボタンが表示される', () => {
     renderSidebar()
-    expect(screen.getByRole('button', { name: /テーマ/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /ダークモード|ライトモード/i })).toBeInTheDocument()
   })
 
   it('レイアウト保存ボタンが表示される', () => {
@@ -39,7 +39,7 @@ describe('Sidebar', () => {
 
   it('レイアウト読み込みボタンが表示される', () => {
     renderSidebar()
-    expect(screen.getByRole('button', { name: /読み込み/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /読込/i })).toBeInTheDocument()
   })
 
   it('ユーザー情報エリアが表示される', () => {

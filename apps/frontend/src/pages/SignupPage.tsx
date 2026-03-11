@@ -2,90 +2,92 @@ import { Link } from 'react-router'
 import { Mail, Lock, Eye } from 'lucide-react'
 
 export function SignupPage() {
-return (
-    <div className="min-h-screen bg-apple-bg text-apple-textPrimary dark:bg-appleDark-bg dark:text-appleDark-textPrimary flex items-center justify-center">
-      <div className="w-full max-w-md p-8 bg-apple-card border border-apple-border dark:bg-appleDark-card dark:border-appleDark-border rounded-2xl shadow-apple-lg">
+  return (
+    <div className="min-h-screen bg-apple-bg text-apple-text-primary dark:bg-apple-dark-bg dark:text-apple-dark-text-primary flex items-center justify-center">
+      <div className="w-full max-w-md p-8 bg-apple-card border border-apple-border dark:bg-apple-dark-card dark:border-apple-dark-border rounded-2xl shadow-apple-lg">
 
         <h1 className="text-2xl font-bold text-center mb-8">新規登録</h1>
 
         <form className="space-y-6">
 
           <div className="space-y-2">
-            <label htmlFor="login-email" className="flex items-center gap-2 text-sm text-apple-textSecondary dark:text-appleDark-textSecondary">
+            <label htmlFor="signup-email" className="flex items-center gap-2 text-sm text-apple-text-secondary dark:text-apple-dark-text-secondary">
               <Mail className="w-4 h-4" aria-hidden="true" />
               メールアドレス
             </label>
             <input
-              id="login-email"
+              id="signup-email"
               type="email"
               required
               autoComplete="email"
-              className="w-full px-4 py-3 bg-apple-bgSecondary border border-apple-border dark:bg-appleDark-bgSecondary dark:border-appleDark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-appleDark-blue focus:ring-2 focus:ring-apple-blue/20"
+              className="w-full px-4 py-3 bg-apple-bg-secondary border border-apple-border dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-apple-dark-blue focus:ring-2 focus:ring-apple-blue/20"
               placeholder="email@example.com"
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="login-password" className="flex items-center gap-2 text-sm text-apple-textSecondary dark:text-appleDark-textSecondary">
+            <label htmlFor="signup-password" className="flex items-center gap-2 text-sm text-apple-text-secondary dark:text-apple-dark-text-secondary">
               <Lock className="w-4 h-4" aria-hidden="true" />
               パスワード
             </label>
             <div className="relative">
               <input
-                id="login-password"
+                id="signup-password"
+                type="password"
                 required
-                autoComplete="current-password"
-                className="w-full px-4 py-3 bg-apple-bgSecondary border border-apple-border dark:bg-appleDark-bgSecondary dark:border-appleDark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-appleDark-blue focus:ring-2 focus:ring-apple-blue/20"
+                autoComplete="new-password"
+                className="w-full px-4 py-3 bg-apple-bg-secondary border border-apple-border dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-apple-dark-blue focus:ring-2 focus:ring-apple-blue/20"
                 placeholder="8文字以上"
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-apple-textSecondary hover:text-apple-textPrimary dark:text-appleDark-textSecondary dark:hover:text-white cursor-pointer p-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-apple-text-secondary hover:text-apple-text-primary dark:text-apple-dark-text-secondary dark:hover:text-white cursor-pointer p-1"
               >
-                {<Eye size={20} />}
+                <Eye size={20} />
               </button>
             </div>
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="signup-confirm-password" className="flex items-center gap-2 text-sm text-apple-textSecondary dark:text-appleDark-textSecondary">
+            <label htmlFor="signup-confirm-password" className="flex items-center gap-2 text-sm text-apple-text-secondary dark:text-apple-dark-text-secondary">
               <Lock className="w-4 h-4" aria-hidden="true" />
               パスワード（確認）
             </label>
             <div className="relative">
               <input
                 id="signup-confirm-password"
+                type="password"
                 required
                 autoComplete="new-password"
-                className="w-full px-4 py-3 bg-apple-bgSecondary border border-apple-border dark:bg-appleDark-bgSecondary dark:border-appleDark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-appleDark-blue focus:ring-2 focus:ring-apple-blue/20"
+                className="w-full px-4 py-3 bg-apple-bg-secondary border border-apple-border dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-apple-dark-blue focus:ring-2 focus:ring-apple-blue/20"
                 placeholder="パスワードを再入力"
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-apple-textSecondary hover:text-apple-textPrimary dark:text-appleDark-textSecondary dark:hover:text-white cursor-pointer p-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-apple-text-secondary hover:text-apple-text-primary dark:text-apple-dark-text-secondary dark:hover:text-white cursor-pointer p-1"
               >
-                { <Eye size={20} />}
+                <Eye size={20} />
               </button>
             </div>
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-apple-blue hover:bg-apple-blue/90 dark:bg-appleDark-blue dark:hover:bg-appleDark-blue/90 disabled:opacity-50 rounded-lg font-medium transition-colors text-white"
+            className="w-full py-3 bg-apple-blue hover:bg-apple-blue/90 dark:bg-apple-dark-blue dark:hover:bg-apple-dark-blue/90 disabled:opacity-50 rounded-lg font-medium transition-colors text-white"
           >
-            {'登録する'}
+            登録する
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-apple-textSecondary dark:text-appleDark-textSecondary">
+        <div className="mt-6 text-center text-sm text-apple-text-secondary dark:text-apple-dark-text-secondary">
           すでにアカウントをお持ちの方は{' '}
-          <Link to="/login" className="text-apple-blue hover:text-apple-blue/80 dark:text-appleDark-blue">
+          <Link to="/login" className="text-apple-blue hover:text-apple-blue/80 dark:text-apple-dark-blue">
             ログイン
           </Link>
         </div>
 
         <div className="mt-8 text-center">
-          <Link to="/" className="text-sm text-apple-textSecondary hover:text-apple-textPrimary dark:text-appleDark-textSecondary dark:hover:text-white">
+          <Link to="/" className="text-sm text-apple-text-secondary hover:text-apple-text-primary dark:text-apple-dark-text-secondary dark:hover:text-white">
             ← メイン画面に戻る
           </Link>
         </div>
@@ -93,4 +95,3 @@ return (
     </div>
   )
 }
-

@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 
 type HeaderProps = {
   onOpenSidebar?: () => void
-  onOpenSearchModal?: () => void
 }
 
 export function Header({
@@ -30,7 +29,7 @@ export function Header({
           <div className="flex gap-2">
             <label htmlFor="stream-url" className="sr-only">配信URL</label>
 
-            
+
             <input
               id="stream-url"
               type="text"
@@ -40,7 +39,7 @@ export function Header({
 
             <button
               aria-label="配信を追加"
-              className="flex items-center gap-1.5 px-4 py-2 bg-apple-blue hover:bg-apple-blue/90 hover:shadow-apple-lg dark:bg-appleDark-blue dark:hover:bg-appleDark-blue/90 rounded-lg transition-all duration-300 text-sm font-medium text-white cursor-pointer min-h-[44px]"
+              className="flex items-center gap-1.5 px-4 py-2 bg-apple-blue hover:bg-apple-blue/90 hover:shadow-apple-lg dark:bg-apple-dark-blue dark:hover:bg-apple-dark-blue/90 rounded-lg transition-all duration-300 text-sm font-medium text-white cursor-pointer min-h-[44px]"
             >
               <Plus className="w-4 h-4" />
               追加
@@ -52,14 +51,14 @@ export function Header({
         <div className="flex items-center gap-2">
           <Link
             to="/login"
-            className="px-4 py-2 border border-apple-border dark:border-appleDark-border rounded-lg text-sm hover:bg-apple-bgSecondary hover:border-apple-blue/30 dark:hover:bg-appleDark-card dark:hover:border-appleDark-blue/50 transition-all duration-300"
+            className="px-4 py-2 border border-apple-border dark:border-apple-dark-border rounded-lg text-sm hover:bg-apple-bg-secondary hover:border-apple-blue/30 dark:hover:bg-apple-dark-card dark:hover:border-apple-dark-blue/50 transition-all duration-300"
           >
             ログイン
           </Link>
 
           <Link
             to="/signup"
-            className="px-4 py-2 bg-apple-blue/10 border border-apple-blue/20 dark:bg-appleDark-blue/20 dark:border-appleDark-blue/30 rounded-lg text-sm text-apple-blue dark:text-appleDark-blue hover:bg-apple-blue/20 hover:shadow-apple dark:hover:bg-appleDark-blue/30 transition-all duration-300"
+            className="px-4 py-2 bg-apple-blue/10 border border-apple-blue/20 dark:bg-apple-dark-blue/20 dark:border-apple-dark-blue/30 rounded-lg text-sm text-apple-blue dark:text-apple-dark-blue hover:bg-apple-blue/20 hover:shadow-apple dark:hover:bg-apple-dark-blue/30 transition-all duration-300"
           >
             新規登録
           </Link>
