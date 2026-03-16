@@ -33,6 +33,7 @@ export function LoginPage() {
             <div className="relative">
               <input
                 id="login-password"
+                type="password"
                 required
                 autoComplete="current-password"
                 className="w-full px-4 py-3 bg-apple-bg-secondary border border-apple-border dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-apple-dark-blue focus:ring-2 focus:ring-apple-blue/20"
