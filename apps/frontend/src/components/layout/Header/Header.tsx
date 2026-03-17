@@ -15,6 +15,7 @@ export function Header({
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenSidebar}
+            aria-label="メニューを開く"
             className="p-2 text-apple-text-secondary hover:text-apple-text-primary rounded-lg hover:bg-apple-bg-secondary dark:text-apple-dark-text-secondary dark:hover:bg-apple-dark-bg-secondary"
           >
             <Menu className="w-6 h-6" />
