@@ -59,11 +59,26 @@ body {
 }
 
 /* グリッドパターン背景（ダーク）*/
-.dark-grid {
+.dark-grid,
+.cyber-grid {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 50px 50px;
+}
+
+/* ライトモード背景グラデーション */
+.bg-light-gradient {
+  background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F7 100%);
+}
+
+/* ソフトグロー効果 */
+.bg-light-purple-glow {
+  background: radial-gradient(ellipse at center, rgba(0, 122, 255, 0.08) 0%, transparent 60%);
+}
+
+.bg-light-pink-glow {
+  background: radial-gradient(ellipse at center, rgba(0, 122, 255, 0.05) 0%, transparent 60%);
 }
 
 /* グラスモルフィズム */

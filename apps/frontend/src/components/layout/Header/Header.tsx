@@ -9,7 +9,7 @@ export function Header({
   onOpenSidebar
 }: HeaderProps) {
   return (
-    <header className="bg-apple-card border-b border-apple-border px-4 py-3 dark:bg-apple-dark-card dark:border-apple-dark-border">
+    <header className="relative z-10 bg-apple-card border-b border-apple-border px-4 py-3 dark:bg-apple-dark-card dark:border-apple-dark-border">
       <div className="flex items-center justify-between gap-4">
         {/* 左側: メニュー + ロゴ */}
         <div className="flex items-center gap-2">
