@@ -46,12 +46,12 @@ describe('MainPage', () => {
 
     it('配信がない時はEmptyStateが表示される', () => {
       renderMainPage()
-      expect(screen.getByText(/配信を追加してください/i)).toBeInTheDocument()
+      expect(screen.getByText(/動画・配信を追加/i)).toBeInTheDocument()
     })
 
     it('EmptyStateに説明文が表示される', () => {
       renderMainPage()
-      expect(screen.getByText(/YouTubeまたはTwitchのURL/i)).toBeInTheDocument()
+      expect(screen.getByText(/YouTubeやTwitchのURL/i)).toBeInTheDocument()
     })
   })
 

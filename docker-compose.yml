@@ -56,6 +56,9 @@ services:
       - ./apps/frontend/tsconfig.json:/app/apps/frontend/tsconfig.json:ro
       - ./apps/frontend/tsconfig.app.json:/app/apps/frontend/tsconfig.app.json:ro
       - ./apps/frontend/tsconfig.node.json:/app/apps/frontend/tsconfig.node.json:ro
+      - ./apps/frontend/package.json:/app/apps/frontend/package.json:ro
+      - ./package.json:/app/package.json:ro
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml:ro
     depends_on:
       - backend
     networks:
