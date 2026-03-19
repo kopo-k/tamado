@@ -1,24 +1,53 @@
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router'
+import { BrowserRouter, MemoryRouter } from 'react-router'
 import App from './App'
 
-describe('App スモークテスト', () => {
-  it('アプリがクラッシュせずに起動する', () => {
-    expect(() => {
-      render(
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      )
-    }).not.toThrow()
-  })
-
-  it('ヘッダーが表示される', () => {
+describe('App', () => {
+  const renderApp = () => {
     render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
     )
-    expect(screen.getByRole('banner')).toBeInTheDocument() // <header> = banner role
+  }
+
+  describe('スモークテスト', () => {
+    it('アプリがクラッシュせずに起動する', () => {
+      expect(() => renderApp()).not.toThrow()
+    })
+
+    it('ヘッダーが表示される', () => {
+      renderApp()
+      expect(screen.getByRole('banner')).toBeInTheDocument()
+    })
+  })
+
+  describe('ルーティング', () => {
+    it('不正なURLはMainPageにリダイレクトされる', () => {
+      render(
+        <MemoryRouter initialEntries={['/invalid-url']}>
+          <App />
+        </MemoryRouter>
+      )
+      expect(screen.getByRole('main')).toBeInTheDocument()
+    })
+
+    it('/login でLoginPageが表示される', () => {
+      render(
+        <MemoryRouter initialEntries={['/login']}>
+          <App />
+        </MemoryRouter>
+      )
+      expect(screen.getByRole('heading', { name: /ログイン/i })).toBeInTheDocument()
+    })
+
+    it('/signup でSignupPageが表示される', () => {
+      render(
+        <MemoryRouter initialEntries={['/signup']}>
+          <App />
+        </MemoryRouter>
+      )
+      expect(screen.getByRole('heading', { name: /新規登録/i })).toBeInTheDocument()
+    })
   })
 })
