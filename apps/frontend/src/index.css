@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* ダークモードをclassベースに変更 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -79,6 +82,15 @@ body {
 
 .bg-light-pink-glow {
   background: radial-gradient(ellipse at center, rgba(0, 122, 255, 0.05) 0%, transparent 60%);
+}
+
+/* ダークモード用グロー効果 */
+.bg-dark-purple-glow {
+  background: radial-gradient(ellipse at center, rgba(10, 132, 255, 0.1) 0%, transparent 60%);
+}
+
+.bg-dark-cyan-glow {
+  background: radial-gradient(ellipse at center, rgba(10, 132, 255, 0.08) 0%, transparent 60%);
 }
 
 /* グラスモルフィズム */

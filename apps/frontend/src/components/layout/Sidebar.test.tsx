@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router'
+import { ThemeProvider } from '@/hooks/useTheme'
 import { Sidebar } from './Sidebar'
 
 describe('Sidebar', () => {
@@ -15,7 +16,9 @@ describe('Sidebar', () => {
   const renderSidebar = (props = {}) => {
     render(
       <BrowserRouter>
-        <Sidebar {...defaultProps} {...props} />
+        <ThemeProvider>
+          <Sidebar {...defaultProps} {...props} />
+        </ThemeProvider>
       </BrowserRouter>
     )
   }

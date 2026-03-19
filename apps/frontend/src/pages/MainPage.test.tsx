@@ -1,13 +1,16 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router'
+import { ThemeProvider } from '@/hooks/useTheme'
 import { MainPage } from './MainPage'
 
 describe('MainPage', () => {
   const renderMainPage = () => {
     render(
       <BrowserRouter>
-        <MainPage />
+        <ThemeProvider>
+          <MainPage />
+        </ThemeProvider>
       </BrowserRouter>
     )
   }
