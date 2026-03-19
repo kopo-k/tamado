@@ -15,6 +15,7 @@ export function EmptyState() {
         {/* 説明文 */}
         <p className="text-apple-text-secondary dark:text-apple-dark-text-secondary text-sm mb-8 max-w-sm mx-auto">
           上の入力欄にYouTubeやTwitchのURLを貼り付けて、
+          <br />
           <span className="text-apple-blue dark:text-apple-dark-blue">同時視聴</span>
           できます
         </p>
