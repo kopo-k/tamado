@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter, MemoryRouter } from 'react-router'
-import { ThemeProvider } from './hooks/useTheme'
+import { ThemeProvider } from './hooks/ThemeProvider'
 import App from './App'
 
 describe('App', () => {

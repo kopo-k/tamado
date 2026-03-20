@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
-import { ThemeProvider } from './hooks/useTheme'
+import { ThemeProvider } from './hooks/ThemeProvider'
 import './index.css'
 import App from './App.tsx'
 

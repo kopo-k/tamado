@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router'
-import { ThemeProvider } from '@/hooks/useTheme'
+import { ThemeProvider } from '@/hooks/ThemeProvider'
 import { Sidebar } from './Sidebar'
 
 describe('Sidebar', () => {
