@@ -1,14 +1,6 @@
-import { createContext, useState, useLayoutEffect } from 'react'
-
-export type Theme = 'light' | 'dark'
-
-export type ThemeContextType = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-  toggleTheme: () => void
-}
-
-export const ThemeContext = createContext<ThemeContextType | null>(null)
+import { useState, useLayoutEffect } from 'react'
+import { ThemeContext } from './ThemeContext'
+import type { Theme } from './ThemeContext'
 
 function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'dark'
