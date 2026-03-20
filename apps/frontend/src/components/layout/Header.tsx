@@ -9,14 +9,14 @@ export function Header({
   onOpenSidebar
 }: HeaderProps) {
   return (
-    <header className="relative z-10 bg-apple-card border-b border-apple-border px-4 py-3 dark:bg-apple-dark-card dark:border-apple-dark-border">
+    <header className="relative z-10 bg-white/80 backdrop-blur-sm border-b border-apple-border px-4 py-3 dark:bg-apple-dark-bg-secondary/80 dark:border-apple-dark-border">
       <div className="flex items-center justify-between gap-4">
         {/* 左側: メニュー + ロゴ */}
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenSidebar}
             aria-label="メニューを開く"
-            className="p-2 text-apple-text-secondary hover:text-apple-text-primary rounded-lg hover:bg-apple-bg-secondary dark:text-apple-dark-text-secondary dark:hover:bg-apple-dark-bg-secondary"
+            className="p-2.5 text-apple-text-secondary hover:text-apple-text-primary dark:text-apple-dark-text-secondary dark:hover:text-white transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-apple-bg-secondary dark:hover:bg-apple-dark-card"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -35,7 +35,7 @@ export function Header({
               id="stream-url"
               type="text"
               placeholder="YouTubeまたはTwitchのURLを入力"
-              className="flex-1 px-4 py-2 bg-white border border-apple-border rounded-lg text-sm focus:outline-none transition-all duration-300"
+              className="flex-1 px-4 py-2 bg-white border border-apple-border rounded-lg text-sm focus:outline-none transition-all duration-300 dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border dark:text-apple-dark-text-primary dark:placeholder-apple-dark-text-secondary"
             />
 
             <button

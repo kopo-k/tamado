@@ -20,6 +20,8 @@ export function MainPage() {
       <div className="hidden dark:block fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-apple-dark-bg" />
         <div className="absolute inset-0 cyber-grid" />
+        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-dark-purple-glow" />
+        <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-dark-cyan-glow" />
       </div>
 
       {/* サイドバー */}

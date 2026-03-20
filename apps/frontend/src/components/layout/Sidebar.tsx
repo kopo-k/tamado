@@ -1,5 +1,6 @@
 import { X, Sun, Moon, Save, FolderOpen, User, Settings, LayoutGrid, Flame } from 'lucide-react'
 import { useState } from 'react'
+import { useTheme } from '@/hooks/useTheme'
 
 type SidebarProps = {
   isOpen: boolean
@@ -16,7 +17,7 @@ export function Sidebar({
   onOpenSaveModal,
   onOpenLoadModal,
 }: SidebarProps) {
-  const [isDark, setIsDark] = useState(false)
+  const { theme, toggleTheme } = useTheme()
   const [excitementDetection, setExcitementDetection] = useState(false)
 
   return (
@@ -82,9 +83,9 @@ export function Sidebar({
 
           {/* 設定 */}
           <MenuSection title="設定" icon={<Settings className="w-4 h-4" />}>
-            <MenuItem onClick={() => setIsDark(!isDark)}>
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              {isDark ? 'ライトモード' : 'ダークモード'}
+            <MenuItem onClick={toggleTheme}>
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {theme === 'dark' ? 'ライトモード' : 'ダークモード'}
             </MenuItem>
           </MenuSection>
         </nav>
