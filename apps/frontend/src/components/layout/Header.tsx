@@ -1,13 +1,32 @@
-import { Menu, Plus } from 'lucide-react'
+import { useState } from 'react'
+import { Menu, Plus, AlertCircle } from 'lucide-react'
 import { Link } from 'react-router'
 
 type HeaderProps = {
   onOpenSidebar?: () => void
+  onAddStream?: (url: string) => boolean
 }
 
 export function Header({
-  onOpenSidebar
+  onOpenSidebar,
+  onAddStream,
 }: HeaderProps) {
+  const [url, setUrl] = useState('')
+  const [error, setError] = useState('')
+
+  function handleAddStream() {
+    if (!url.trim()) return
+    setError('')
+
+    const success = onAddStream?.(url)
+    if (success) {
+      setUrl('')
+    } else {
+      setError('URLが無効です。YouTubeまたはTwitchのURLを入力してください。')
+      setUrl('')
+    }
+  }
+
   return (
     <header className="relative z-10 bg-white/80 backdrop-blur-sm border-b border-apple-border px-4 py-3 dark:bg-apple-dark-bg-secondary/80 dark:border-apple-dark-border">
       <div className="flex items-center justify-between gap-4">
@@ -29,16 +48,26 @@ export function Header({
         <div className="flex-1 max-w-xl flex flex-col gap-1">
           <div className="flex gap-2">
             <label htmlFor="stream-url" className="sr-only">配信URL</label>
-
-
             <input
               id="stream-url"
               type="text"
               placeholder="YouTubeまたはTwitchのURLを入力"
-              className="flex-1 px-4 py-2 bg-white border border-apple-border rounded-lg text-sm focus:outline-none transition-all duration-300 dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border dark:text-apple-dark-text-primary dark:placeholder-apple-dark-text-secondary"
+              value={url}
+              onChange={(e) => {
+                setUrl(e.target.value)
+                if (error) setError('')
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleAddStream()
+              }}
+              className={`flex-1 px-4 py-2 bg-white border rounded-lg text-sm focus:outline-none transition-all duration-300 ${
+                error
+                  ? 'border-apple-red focus:border-apple-red'
+                  : 'border-apple-border focus:border-apple-blue dark:border-apple-dark-border dark:focus:border-apple-dark-blue'
+              } dark:bg-apple-dark-bg-secondary dark:text-apple-dark-text-primary dark:placeholder-apple-dark-text-secondary`}
             />
-
             <button
+              onClick={handleAddStream}
               aria-label="配信を追加"
               className="flex items-center gap-1.5 px-4 py-2 bg-apple-blue hover:bg-apple-blue/90 hover:shadow-apple-lg dark:bg-apple-dark-blue dark:hover:bg-apple-dark-blue/90 rounded-lg transition-all duration-300 text-sm font-medium text-white cursor-pointer min-h-[44px]"
             >
@@ -46,6 +75,16 @@ export function Header({
               追加
             </button>
           </div>
+          {/* エラーメッセージ */}
+          {error && (
+            <div
+              role="alert"
+              className="flex items-center gap-1.5 text-xs text-apple-red dark:text-apple-dark-red"
+            >
+              <AlertCircle className="w-3.5 h-3.5" />
+              {error}
+            </div>
+          )}
         </div>
 
         {/* 右側: ボタン */}

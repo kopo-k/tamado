@@ -2,9 +2,23 @@ import { useState } from 'react'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { StreamTile } from '@/components/ui/StreamTile'
+import { useStreams } from '@/hooks/useStreams'
+import { parseStreamUrl } from '@/utils/parseUrl'
+import { getEmbedUrl } from '@/utils/embedUrl'
 
 export function MainPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const { streams, addStream, removeStream } = useStreams()
+
+  function handleAddStream(url: string): boolean {
+    const parsed = parseStreamUrl(url)
+    if (!parsed) return false
+    const embedUrl = getEmbedUrl(parsed.platform, parsed.id)
+    if (!embedUrl) return false
+    addStream({ platform: parsed.platform, videoId: parsed.id, embedUrl })
+    return true
+  }
 
   return (
     <div className="min-h-screen bg-apple-bg text-apple-text-primary dark:bg-apple-dark-bg dark:text-apple-dark-text-primary relative overflow-hidden">
@@ -31,11 +45,26 @@ export function MainPage() {
       />
 
       {/* ヘッダー */}
-      <Header onOpenSidebar={() => setIsSidebarOpen(true)} />
+      <Header
+        onOpenSidebar={() => setIsSidebarOpen(true)}
+        onAddStream={handleAddStream}
+      />
 
       {/* メインコンテンツ */}
       <main role="main" className="relative z-10">
-        <EmptyState />
+        {streams.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {streams.map(stream => (
+              <StreamTile
+                key={stream.id}
+                stream={stream}
+                onRemove={() => removeStream(stream.id)}
+              />
+            ))}
+          </div>
+        )}
       </main>
     </div>
   )
