@@ -1,19 +1,23 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router'
-import { ThemeProvider } from '@/hooks/ThemeProvider'
+import { useUIStore } from '@/stores/useUIStore'
+import { useStreamStore } from '@/stores/useStreamStore'
 import { MainPage } from './MainPage'
 
 describe('MainPage', () => {
   const renderMainPage = () => {
     render(
       <BrowserRouter>
-        <ThemeProvider>
-          <MainPage />
-        </ThemeProvider>
+        <MainPage />
       </BrowserRouter>
     )
   }
+
+  beforeEach(() => {
+    useUIStore.setState({ isSidebarOpen: false })
+    useStreamStore.setState({ streams: [] })
+  })
 
   // UI表示テスト
   describe('UI表示', () => {
@@ -75,42 +79,27 @@ describe('MainPage', () => {
 
     it('サイドバーの閉じるボタンをクリックするとサイドバーが閉じる', async () => {
       const user = userEvent.setup()
+      useUIStore.setState({ isSidebarOpen: true })
       renderMainPage()
 
-      // サイドバーを開く
-      const menuButton = screen.getByRole('button', { name: /メニューを開く/i })
-      await user.click(menuButton)
-
-      // サイドバーが開いていることを確認
-      const sidebar = screen.getByRole('complementary')
-      expect(sidebar).not.toHaveClass('-translate-x-full')
-
-      // 閉じるボタンをクリック
       const closeButton = screen.getByRole('button', { name: /閉じる/i })
       await user.click(closeButton)
 
-      // サイドバーが閉じる
+      const sidebar = screen.getByRole('complementary')
       expect(sidebar).toHaveClass('-translate-x-full')
     })
 
     it('オーバーレイをクリックするとサイドバーが閉じる', async () => {
       const user = userEvent.setup()
+      useUIStore.setState({ isSidebarOpen: true })
       renderMainPage()
 
-      // サイドバーを開く
-      const menuButton = screen.getByRole('button', { name: /メニューを開く/i })
-      await user.click(menuButton)
-
-      const sidebar = screen.getByRole('complementary')
-      expect(sidebar).not.toHaveClass('-translate-x-full')
-
-      // オーバーレイをクリック
       const overlay = document.querySelector('.backdrop-blur-sm')
       if (overlay) {
         await user.click(overlay)
       }
 
-      // サイドバーが閉じる
+      const sidebar = screen.getByRole('complementary')
       expect(sidebar).toHaveClass('-translate-x-full')
     })
   })
