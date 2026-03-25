@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import type { Stream } from '@/hooks/useStreams'
+import type { Stream } from '@/stores/useStreamStore'
 
 type StreamTileProps = {
   stream: Stream
