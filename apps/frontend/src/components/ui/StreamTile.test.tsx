@@ -9,6 +9,8 @@ describe('StreamTile', () => {
       platform: 'youtube' as const,
       videoId: 'YIFDiECQUe8',
       embedUrl: 'https://www.youtube.com/embed/YIFDiECQUe8',
+      x: 0,
+      y: 0,
     },
     onRemove: vi.fn(),
   }
@@ -46,6 +48,8 @@ describe('StreamTile', () => {
         platform: 'twitch' as const,
         videoId: 'channelname',
         embedUrl: 'https://player.twitch.tv/?channel=channelname&parent=localhost',
+        x: 0,
+        y: 0,
       },
       onRemove: vi.fn(),
     }

@@ -1,24 +1,17 @@
 import { X, Sun, Moon, Save, FolderOpen, User, Settings, LayoutGrid, Flame } from 'lucide-react'
 import { useState } from 'react'
-import { useTheme } from '@/hooks/useTheme'
+import { useUIStore } from '@/stores/useUIStore'
+import { useThemeStore } from '@/stores/useThemeStore'
 
-type SidebarProps = {
-  isOpen: boolean
-  onClose: () => void
-  onAutoLayout?: () => void
-  onOpenSaveModal?: () => void
-  onOpenLoadModal?: () => void
-}
-
-export function Sidebar({
-  isOpen,
-  onClose,
-  onAutoLayout,
-  onOpenSaveModal,
-  onOpenLoadModal,
-}: SidebarProps) {
-  const { theme, toggleTheme } = useTheme()
+export function Sidebar() {
+  const isSidebarOpen = useUIStore(s => s.isSidebarOpen)
+  const closeSidebar = useUIStore(s => s.closeSidebar)
+  const theme = useThemeStore(s => s.theme)
+  const toggleTheme = useThemeStore(s => s.toggleTheme)
   const [excitementDetection, setExcitementDetection] = useState(false)
+
+  const isOpen = isSidebarOpen
+  const onClose = closeSidebar
 
   return (
     <>
@@ -55,7 +48,7 @@ export function Sidebar({
         <nav className="p-4 space-y-6">
           {/* レイアウト */}
           <MenuSection title="レイアウト" icon={<LayoutGrid className="w-4 h-4" />}>
-            <MenuItem onClick={() => { onAutoLayout?.(); onClose(); }}>
+            <MenuItem onClick={() => { onClose(); }}>
               自動レイアウト
             </MenuItem>
           </MenuSection>
@@ -71,11 +64,11 @@ export function Sidebar({
 
           {/* 保存/読込 */}
           <MenuSection title="保存/読込" icon={<Save className="w-4 h-4" />}>
-            <MenuItem onClick={() => { onOpenSaveModal?.(); onClose(); }}>
+            <MenuItem onClick={() => { onClose(); }}>
               <Save className="w-4 h-4" />
               レイアウト保存
             </MenuItem>
-            <MenuItem onClick={() => { onOpenLoadModal?.(); onClose(); }}>
+            <MenuItem onClick={() => { onClose(); }}>
               <FolderOpen className="w-4 h-4" />
               レイアウト読込
             </MenuItem>
