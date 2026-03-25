@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import { Menu, Plus, AlertCircle } from 'lucide-react'
 import { Link } from 'react-router'
+import { useStreamStore } from '@/stores/useStreamStore'
+import { useUIStore } from '@/stores/useUIStore'
 
-type HeaderProps = {
-  onOpenSidebar?: () => void
-  onAddStream?: (url: string) => boolean
-}
+export function Header() {
+  const addStream = useStreamStore(s => s.addStream)
+  const openSidebar = useUIStore(s => s.openSidebar)
 
-export function Header({
-  onOpenSidebar,
-  onAddStream,
-}: HeaderProps) {
   const [url, setUrl] = useState('')
   const [error, setError] = useState('')
 
@@ -18,7 +15,7 @@ export function Header({
     if (!url.trim()) return
     setError('')
 
-    const success = onAddStream?.(url)
+    const success = addStream(url)
     if (success) {
       setUrl('')
     } else {
@@ -33,7 +30,7 @@ export function Header({
         {/* 左側: メニュー + ロゴ */}
         <div className="flex items-center gap-2">
           <button
-            onClick={onOpenSidebar}
+            onClick={openSidebar}
             aria-label="メニューを開く"
             className="p-2.5 text-apple-text-secondary hover:text-apple-text-primary dark:text-apple-dark-text-secondary dark:hover:text-white transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-apple-bg-secondary dark:hover:bg-apple-dark-card"
           >

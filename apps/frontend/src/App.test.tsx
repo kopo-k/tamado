@@ -1,15 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter, MemoryRouter } from 'react-router'
-import { ThemeProvider } from './hooks/ThemeProvider'
 import App from './App'
 
 describe('App', () => {
   const renderApp = () => {
     render(
       <BrowserRouter>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
+        <App />
       </BrowserRouter>
     )
   }
@@ -29,9 +26,7 @@ describe('App', () => {
     it('不正なURLはMainPageにリダイレクトされる', () => {
       render(
         <MemoryRouter initialEntries={['/invalid-url']}>
-          <ThemeProvider>
-            <App />
-          </ThemeProvider>
+          <App />
         </MemoryRouter>
       )
       expect(screen.getByRole('main')).toBeInTheDocument()
@@ -40,9 +35,7 @@ describe('App', () => {
     it('/login でLoginPageが表示される', () => {
       render(
         <MemoryRouter initialEntries={['/login']}>
-          <ThemeProvider>
-            <App />
-          </ThemeProvider>
+          <App />
         </MemoryRouter>
       )
       expect(screen.getByRole('heading', { name: /ログイン/i })).toBeInTheDocument()
@@ -51,9 +44,7 @@ describe('App', () => {
     it('/signup でSignupPageが表示される', () => {
       render(
         <MemoryRouter initialEntries={['/signup']}>
-          <ThemeProvider>
-            <App />
-          </ThemeProvider>
+          <App />
         </MemoryRouter>
       )
       expect(screen.getByRole('heading', { name: /新規登録/i })).toBeInTheDocument()

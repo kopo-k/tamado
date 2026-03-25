@@ -1,24 +1,23 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router'
+import { useStreamStore } from '@/stores/useStreamStore'
+import { useUIStore } from '@/stores/useUIStore'
 import { Header } from './Header'
 
 describe('Header', () => {
-  const defaultProps = {
-    onOpenSidebar: vi.fn(),
-    onAddStream: vi.fn(),
-  }
-
-  const renderHeader = (props = {}) => {
+  const renderHeader = () => {
     render(
       <BrowserRouter>
-        <Header {...defaultProps} {...props} />
+        <Header />
       </BrowserRouter>
     )
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
+    useStreamStore.setState({ streams: [] })
+    useUIStore.setState({ isSidebarOpen: false })
   })
 
   // UI表示テスト
@@ -56,14 +55,12 @@ describe('Header', () => {
 
   // インタラクションテスト
   describe('インタラクション', () => {
-    it('メニューボタンをクリックすると onOpenSidebar が呼ばれる', async () => {
-      const onOpenSidebar = vi.fn()
+    it('メニューボタンをクリックするとサイドバーが開く', async () => {
       const user = userEvent.setup()
-
-      renderHeader({ onOpenSidebar })
+      renderHeader()
 
       await user.click(screen.getByRole('button', { name: /メニューを開く/i }))
-      expect(onOpenSidebar).toHaveBeenCalledTimes(1)
+      expect(useUIStore.getState().isSidebarOpen).toBe(true)
     })
 
     it('URL入力欄に値を入力できる', async () => {
@@ -75,24 +72,20 @@ describe('Header', () => {
       expect(input).toHaveValue('https://www.youtube.com/watch?v=test')
     })
 
-    it('追加ボタンをクリックすると onAddStream が呼ばれる', async () => {
-      const onAddStream = vi.fn().mockReturnValue(true)
+    it('追加ボタンをクリックするとストリームが追加される', async () => {
       const user = userEvent.setup()
-
-      renderHeader({ onAddStream })
+      renderHeader()
 
       const input = screen.getByPlaceholderText(/youtube/i)
       await user.type(input, 'https://www.youtube.com/watch?v=test')
       await user.click(screen.getByRole('button', { name: /追加/i }))
 
-      expect(onAddStream).toHaveBeenCalledWith('https://www.youtube.com/watch?v=test')
+      expect(useStreamStore.getState().streams).toHaveLength(1)
     })
 
     it('追加成功後に入力欄がクリアされる', async () => {
-      const onAddStream = vi.fn().mockReturnValue(true)
       const user = userEvent.setup()
-
-      renderHeader({ onAddStream })
+      renderHeader()
 
       const input = screen.getByPlaceholderText(/youtube/i)
       await user.type(input, 'https://www.youtube.com/watch?v=test')
@@ -102,10 +95,8 @@ describe('Header', () => {
     })
 
     it('追加失敗時にエラーメッセージが表示される', async () => {
-      const onAddStream = vi.fn().mockReturnValue(false)
       const user = userEvent.setup()
-
-      renderHeader({ onAddStream })
+      renderHeader()
 
       const input = screen.getByPlaceholderText(/youtube/i)
       await user.type(input, 'invalid-url')
@@ -114,27 +105,23 @@ describe('Header', () => {
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
 
-    it('空のURLで追加ボタンを押しても onAddStream が呼ばれない', async () => {
-      const onAddStream = vi.fn()
+    it('空のURLで追加ボタンを押してもストリームが追加されない', async () => {
       const user = userEvent.setup()
-
-      renderHeader({ onAddStream })
+      renderHeader()
 
       await user.click(screen.getByRole('button', { name: /追加/i }))
 
-      expect(onAddStream).not.toHaveBeenCalled()
+      expect(useStreamStore.getState().streams).toHaveLength(0)
     })
 
     it('Enterキーで追加できる', async () => {
-      const onAddStream = vi.fn().mockReturnValue(true)
       const user = userEvent.setup()
-
-      renderHeader({ onAddStream })
+      renderHeader()
 
       const input = screen.getByPlaceholderText(/youtube/i)
       await user.type(input, 'https://www.youtube.com/watch?v=test{Enter}')
 
-      expect(onAddStream).toHaveBeenCalledWith('https://www.youtube.com/watch?v=test')
+      expect(useStreamStore.getState().streams).toHaveLength(1)
     })
   })
 })

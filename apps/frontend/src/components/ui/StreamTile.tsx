@@ -4,15 +4,17 @@ import type { Stream } from '@/hooks/useStreams'
 type StreamTileProps = {
   stream: Stream
   onRemove: () => void
+  isDragging?: boolean
 }
 
-export function StreamTile({ stream, onRemove }: StreamTileProps) {
+export function StreamTile({ stream, onRemove, isDragging }: StreamTileProps) {
   return (
     <div className="relative group rounded-lg overflow-hidden border border-apple-border dark:border-apple-dark-border shadow-apple">
       <iframe
         src={stream.embedUrl}
         title={`${stream.platform} player`}
         className="w-full aspect-video"
+        style={{ pointerEvents: isDragging ? 'none' : 'auto' }}
         allowFullScreen
         allow="autoplay; encrypted-media"
       />

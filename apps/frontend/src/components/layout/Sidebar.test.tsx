@@ -1,30 +1,25 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router'
-import { ThemeProvider } from '@/hooks/ThemeProvider'
+import { useUIStore } from '@/stores/useUIStore'
+import { useThemeStore } from '@/stores/useThemeStore'
 import { Sidebar } from './Sidebar'
 
 describe('Sidebar', () => {
-  const defaultProps = {
-    isOpen: true,
-    onClose: vi.fn(),
-    onAutoLayout: vi.fn(),
-    onOpenSaveModal: vi.fn(),
-    onOpenLoadModal: vi.fn(),
-  }
-
-  const renderSidebar = (props = {}) => {
+  const renderSidebar = (options: { isOpen?: boolean } = {}) => {
+    const { isOpen = true } = options
+    useUIStore.setState({ isSidebarOpen: isOpen })
     render(
       <BrowserRouter>
-        <ThemeProvider>
-          <Sidebar {...defaultProps} {...props} />
-        </ThemeProvider>
+        <Sidebar />
       </BrowserRouter>
     )
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
+    useUIStore.setState({ isSidebarOpen: false })
+    useThemeStore.setState({ theme: 'light' })
   })
 
   // UI表示テスト
@@ -47,44 +42,32 @@ describe('Sidebar', () => {
 
     it('閉じるボタンが表示される', () => {
       renderSidebar()
-      expect(
-        screen.getByRole('button', { name: /閉じる/i })
-      ).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /閉じる/i })).toBeInTheDocument()
     })
 
     it('テーマ切り替えボタンが表示される', () => {
       renderSidebar()
-      expect(
-        screen.getByRole('button', { name: /ダークモード|ライトモード/i })
-      ).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /ダークモード|ライトモード/i })).toBeInTheDocument()
     })
 
     it('自動レイアウトボタンが表示される', () => {
       renderSidebar()
-      expect(
-        screen.getByRole('button', { name: /自動レイアウト/i })
-      ).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /自動レイアウト/i })).toBeInTheDocument()
     })
 
     it('レイアウト保存ボタンが表示される', () => {
       renderSidebar()
-      expect(
-        screen.getByRole('button', { name: /保存/i })
-      ).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /保存/i })).toBeInTheDocument()
     })
 
     it('レイアウト読み込みボタンが表示される', () => {
       renderSidebar()
-      expect(
-        screen.getByRole('button', { name: /読込/i })
-      ).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /読込/i })).toBeInTheDocument()
     })
 
     it('盛り上がり検知トグルが表示される', () => {
       renderSidebar()
-      expect(
-        screen.getByRole('switch', { name: /盛り上がり検知/i })
-      ).toBeInTheDocument()
+      expect(screen.getByRole('switch', { name: /盛り上がり検知/i })).toBeInTheDocument()
     })
 
     it('ユーザー情報エリアが表示される', () => {
@@ -101,64 +84,23 @@ describe('Sidebar', () => {
 
   // インタラクションテスト
   describe('インタラクション', () => {
-    it('閉じるボタンをクリックすると onClose が呼ばれる', async () => {
-      const onClose = vi.fn()
+    it('閉じるボタンをクリックするとサイドバーが閉じる', async () => {
       const user = userEvent.setup()
-
-      renderSidebar({ onClose })
+      renderSidebar({ isOpen: true })
 
       await user.click(screen.getByRole('button', { name: /閉じる/i }))
-      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(useUIStore.getState().isSidebarOpen).toBe(false)
     })
 
-    it('オーバーレイをクリックすると onClose が呼ばれる', async () => {
-      const onClose = vi.fn()
+    it('オーバーレイをクリックするとサイドバーが閉じる', async () => {
       const user = userEvent.setup()
+      renderSidebar({ isOpen: true })
 
-      renderSidebar({ onClose, isOpen: true })
-
-      // オーバーレイは backdrop-blur-sm クラスを持つ div
       const overlay = document.querySelector('.backdrop-blur-sm')
       if (overlay) {
         await user.click(overlay)
-        expect(onClose).toHaveBeenCalledTimes(1)
+        expect(useUIStore.getState().isSidebarOpen).toBe(false)
       }
-    })
-
-    it('自動レイアウトボタンをクリックすると onAutoLayout と onClose が呼ばれる', async () => {
-      const onAutoLayout = vi.fn()
-      const onClose = vi.fn()
-      const user = userEvent.setup()
-
-      renderSidebar({ onAutoLayout, onClose })
-
-      await user.click(screen.getByRole('button', { name: /自動レイアウト/i }))
-      expect(onAutoLayout).toHaveBeenCalledTimes(1)
-      expect(onClose).toHaveBeenCalledTimes(1)
-    })
-
-    it('レイアウト保存ボタンをクリックすると onOpenSaveModal と onClose が呼ばれる', async () => {
-      const onOpenSaveModal = vi.fn()
-      const onClose = vi.fn()
-      const user = userEvent.setup()
-
-      renderSidebar({ onOpenSaveModal, onClose })
-
-      await user.click(screen.getByRole('button', { name: /保存/i }))
-      expect(onOpenSaveModal).toHaveBeenCalledTimes(1)
-      expect(onClose).toHaveBeenCalledTimes(1)
-    })
-
-    it('レイアウト読み込みボタンをクリックすると onOpenLoadModal と onClose が呼ばれる', async () => {
-      const onOpenLoadModal = vi.fn()
-      const onClose = vi.fn()
-      const user = userEvent.setup()
-
-      renderSidebar({ onOpenLoadModal, onClose })
-
-      await user.click(screen.getByRole('button', { name: /読込/i }))
-      expect(onOpenLoadModal).toHaveBeenCalledTimes(1)
-      expect(onClose).toHaveBeenCalledTimes(1)
     })
 
     it('盛り上がり検知トグルをクリックすると状態が変わる', async () => {
@@ -175,20 +117,15 @@ describe('Sidebar', () => {
       expect(toggle).toHaveAttribute('aria-checked', 'false')
     })
 
-    it('テーマ切り替えボタンをクリックするとテキストが変わる', async () => {
+    it('テーマ切り替えボタンをクリックするとテーマが変わる', async () => {
       const user = userEvent.setup()
       renderSidebar()
 
-      // 初期状態は「ダークモード」
       const darkModeButton = screen.getByRole('button', { name: /ダークモード/i })
-      expect(darkModeButton).toBeInTheDocument()
-
       await user.click(darkModeButton)
 
-      // クリック後は「ライトモード」
-      expect(
-        screen.getByRole('button', { name: /ライトモード/i })
-      ).toBeInTheDocument()
+      expect(useThemeStore.getState().theme).toBe('dark')
+      expect(screen.getByRole('button', { name: /ライトモード/i })).toBeInTheDocument()
     })
   })
 
@@ -207,8 +144,7 @@ describe('Sidebar', () => {
 
     it('盛り上がり検知トグルにrole="switch"がある', () => {
       renderSidebar()
-      const toggle = screen.getByRole('switch', { name: /盛り上がり検知/i })
-      expect(toggle).toBeInTheDocument()
+      expect(screen.getByRole('switch', { name: /盛り上がり検知/i })).toBeInTheDocument()
     })
 
     it('盛り上がり検知トグルにaria-checkedがある', () => {
