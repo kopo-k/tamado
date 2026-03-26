@@ -1,5 +1,6 @@
-import { X, Sun, Moon, Save, FolderOpen, User, Settings, LayoutGrid, Flame } from 'lucide-react'
-import { useState } from 'react'
+import { X, Sun, Moon, User, Settings } from 'lucide-react'
+// 実装後に有効化
+// import { Save, FolderOpen, LayoutGrid, Flame } from 'lucide-react'
 import { useUIStore } from '@/stores/useUIStore'
 import { useThemeStore } from '@/stores/useThemeStore'
 
@@ -8,7 +9,8 @@ export function Sidebar() {
   const closeSidebar = useUIStore(s => s.closeSidebar)
   const theme = useThemeStore(s => s.theme)
   const toggleTheme = useThemeStore(s => s.toggleTheme)
-  const [excitementDetection, setExcitementDetection] = useState(false)
+  // 実装後に有効化
+  // const [excitementDetection, setExcitementDetection] = useState(false)
 
   const isOpen = isSidebarOpen
   const onClose = closeSidebar
@@ -152,36 +154,36 @@ function MenuItem({ onClick, disabled, children }: MenuItemProps) {
   )
 }
 
-// トグルアイテム
-type ToggleItemProps = {
-  label: string
-  enabled: boolean
-  onToggle: () => void
-}
-
-function ToggleItem({ label, enabled, onToggle }: ToggleItemProps) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      role="switch"
-      aria-checked={enabled}
-      aria-label={`${label}を${enabled ? 'オフ' : 'オン'}にする`}
-      className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm text-apple-text-primary hover:bg-apple-bg-secondary dark:text-apple-dark-text-primary dark:hover:bg-apple-dark-card transition-all duration-200 cursor-pointer min-h-[44px]"
-    >
-      <span>{label}</span>
-      <div
-        aria-hidden="true"
-        className={`relative w-10 h-5 rounded-full transition-all duration-300 ${
-          enabled ? 'bg-apple-blue shadow-apple dark:bg-apple-dark-blue' : 'bg-apple-border dark:bg-apple-dark-border'
-        }`}
-      >
-        <div
-          className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 ${
-            enabled ? 'translate-x-5' : 'translate-x-0.5'
-          }`}
-        />
-      </div>
-    </button>
-  )
-}
+// 実装後に有効化
+// type ToggleItemProps = {
+//   label: string
+//   enabled: boolean
+//   onToggle: () => void
+// }
+//
+// function ToggleItem({ label, enabled, onToggle }: ToggleItemProps) {
+//   return (
+//     <button
+//       type="button"
+//       onClick={onToggle}
+//       role="switch"
+//       aria-checked={enabled}
+//       aria-label={`${label}を${enabled ? 'オフ' : 'オン'}にする`}
+//       className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm text-apple-text-primary hover:bg-apple-bg-secondary dark:text-apple-dark-text-primary dark:hover:bg-apple-dark-card transition-all duration-200 cursor-pointer min-h-[44px]"
+//     >
+//       <span>{label}</span>
+//       <div
+//         aria-hidden="true"
+//         className={`relative w-10 h-5 rounded-full transition-all duration-300 ${
+//           enabled ? 'bg-apple-blue shadow-apple dark:bg-apple-dark-blue' : 'bg-apple-border dark:bg-apple-dark-border'
+//         }`}
+//       >
+//         <div
+//           className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 ${
+//             enabled ? 'translate-x-5' : 'translate-x-0.5'
+//           }`}
+//         />
+//       </div>
+//     </button>
+//   )
+// }
