@@ -46,24 +46,24 @@ export function Sidebar() {
 
         {/* メニュー内容 */}
         <nav className="p-4 space-y-6">
-          {/* レイアウト */}
-          <MenuSection title="レイアウト" icon={<LayoutGrid className="w-4 h-4" />}>
+          {/* レイアウト（実装後に有効化）*/}
+          {/* <MenuSection title="レイアウト" icon={<LayoutGrid className="w-4 h-4" />}>
             <MenuItem onClick={() => { onClose(); }}>
               自動レイアウト
             </MenuItem>
-          </MenuSection>
+          </MenuSection> */}
 
-          {/* 盛り上がり */}
-          <MenuSection title="盛り上がり" icon={<Flame className="w-4 h-4" />}>
+          {/* 盛り上がり（実装後に有効化）*/}
+          {/* <MenuSection title="盛り上がり" icon={<Flame className="w-4 h-4" />}>
             <ToggleItem
               label="盛り上がり検知"
               enabled={excitementDetection}
               onToggle={() => setExcitementDetection(!excitementDetection)}
             />
-          </MenuSection>
+          </MenuSection> */}
 
-          {/* 保存/読込 */}
-          <MenuSection title="保存/読込" icon={<Save className="w-4 h-4" />}>
+          {/* 保存/読込（実装後に有効化）*/}
+          {/* <MenuSection title="保存/読込" icon={<Save className="w-4 h-4" />}>
             <MenuItem onClick={() => { onClose(); }}>
               <Save className="w-4 h-4" />
               レイアウト保存
@@ -72,7 +72,7 @@ export function Sidebar() {
               <FolderOpen className="w-4 h-4" />
               レイアウト読込
             </MenuItem>
-          </MenuSection>
+          </MenuSection> */}
 
           {/* 設定 */}
           <MenuSection title="設定" icon={<Settings className="w-4 h-4" />}>

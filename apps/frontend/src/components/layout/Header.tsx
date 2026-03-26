@@ -84,8 +84,8 @@ export function Header() {
           )}
         </div>
 
-        {/* 右側: ボタン */}
-        <div className="flex items-center gap-2">
+        {/* 右側: ボタン（認証実装後に有効化） */}
+        {/* <div className="flex items-center gap-2">
           <Link
             to="/login"
             className="px-4 py-2 border border-apple-border dark:border-apple-dark-border rounded-lg text-sm hover:bg-apple-bg-secondary hover:border-apple-blue/30 dark:hover:bg-apple-dark-card dark:hover:border-apple-dark-blue/50 transition-all duration-300"
@@ -99,7 +99,7 @@ export function Header() {
           >
             新規登録
           </Link>
-        </div>
+        </div> */}
       </div>
     </header>
   )
