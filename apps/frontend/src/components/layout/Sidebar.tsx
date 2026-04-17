@@ -1,6 +1,7 @@
-import { X, Sun, Moon, User, Settings } from 'lucide-react'
+import { X, Sun, Moon, User, Settings, HelpCircle, Mail } from 'lucide-react'
 // 実装後に有効化
 // import { Save, FolderOpen, LayoutGrid, Flame } from 'lucide-react'
+import { useNavigate } from 'react-router'
 import { useUIStore } from '@/stores/useUIStore'
 import { useThemeStore } from '@/stores/useThemeStore'
 
@@ -9,6 +10,7 @@ export function Sidebar() {
   const closeSidebar = useUIStore(s => s.closeSidebar)
   const theme = useThemeStore(s => s.theme)
   const toggleTheme = useThemeStore(s => s.toggleTheme)
+  const navigate = useNavigate()
   // 実装後に有効化
   // const [excitementDetection, setExcitementDetection] = useState(false)
 
@@ -81,6 +83,14 @@ export function Sidebar() {
             <MenuItem onClick={toggleTheme}>
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               {theme === 'dark' ? 'ライトモード' : 'ダークモード'}
+            </MenuItem>
+          </MenuSection>
+
+          {/* サポート */}
+          <MenuSection title="サポート" icon={<HelpCircle className="w-4 h-4" />}>
+            <MenuItem onClick={() => { onClose(); navigate('/contact') }}>
+              <Mail className="w-4 h-4" />
+              お問い合わせ
             </MenuItem>
           </MenuSection>
         </nav>
