@@ -31,9 +31,12 @@ services:
       FRONTEND_URL: http://localhost:5173
     ports:
       - "3000:3000"
+      - "5555:5555"
     volumes:
       - ./apps/backend/src:/app/apps/backend/src:ro
-      - ./apps/backend/prisma:/app/apps/backend/prisma:ro
+      - ./apps/backend/prisma:/app/apps/backend/prisma
+      - ./apps/backend/prisma.config.ts:/app/apps/backend/prisma.config.ts:ro
+      - ./apps/backend/package.json:/app/apps/backend/package.json:ro
     depends_on:
       postgres:
         condition: service_healthy
