@@ -20,7 +20,7 @@ test.describe('認証フロー', () => {
     await expect(page).toHaveURL('/')
 
     // ヘッダーにメールアドレスが表示される（sm以上の画面）
-    await expect(page.getByText(email)).toBeVisible()
+    await expect(page.getByRole('banner').getByText(email)).toBeVisible()
 
     // ログアウト
     await page.getByRole('button', { name: 'ログアウト' }).click()
@@ -35,7 +35,7 @@ test.describe('認証フロー', () => {
 
     // メイン画面に戻り、ログイン状態
     await expect(page).toHaveURL('/')
-    await expect(page.getByText(email)).toBeVisible()
+    await expect(page.getByRole('banner').getByText(email)).toBeVisible()
   })
 
   test('重複メールでサインアップするとエラーが表示される', async ({ page }) => {
