@@ -32,8 +32,64 @@ jobs:
       - name: 型チェック
         run: pnpm --filter frontend typecheck
 
-      - name: テスト
+      - name: フロントエンドテスト
         run: pnpm --filter frontend test
+
+      - name: バックエンドテスト
+        env:
+          JWT_SECRET: test-secret-key-at-least-32-chars-long
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tamado?schema=public
+        run: |
+          pnpm --filter backend db:generate
+          pnpm --filter backend test
 
       - name: ビルド
         run: pnpm --filter frontend build
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      - name: pnpmをセットアップ
+        uses: pnpm/action-setup@v4
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: 依存関係をインストール
+        run: pnpm install --frozen-lockfile
+
+      - name: Docker Composeでアプリを起動
+        run: docker compose up -d --build
+
+      - name: アプリの起動を待つ
+        run: |
+          npx wait-on http://localhost:3000/health http://localhost:5173 --timeout 120000
+
+      - name: Prismaマイグレーション
+        run: docker compose exec -T backend pnpm db:push
+
+      - name: Playwrightのブラウザをインストール
+        run: pnpm --filter e2e exec playwright install --with-deps chromium
+
+      - name: E2Eテストを実行
+        run: pnpm --filter e2e test
+
+      - name: Playwrightレポートをアップロード
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/e2e/playwright-report/
+          retention-days: 7
+
+      - name: Docker Composeを停止
+        if: always()
+        run: docker compose down -v
