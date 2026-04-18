@@ -4,12 +4,14 @@ import { X, Sun, Moon, User, Settings, HelpCircle, Mail } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { useUIStore } from '@/stores/useUIStore'
 import { useThemeStore } from '@/stores/useThemeStore'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 export function Sidebar() {
   const isSidebarOpen = useUIStore(s => s.isSidebarOpen)
   const closeSidebar = useUIStore(s => s.closeSidebar)
   const theme = useThemeStore(s => s.theme)
   const toggleTheme = useThemeStore(s => s.toggleTheme)
+  const authUser = useAuthStore(s => s.user)
   const navigate = useNavigate()
   // 実装後に有効化
   // const [excitementDetection, setExcitementDetection] = useState(false)
@@ -104,12 +106,12 @@ export function Sidebar() {
             <div className="w-10 h-10 rounded-full bg-apple-bg-secondary dark:bg-apple-dark-card flex items-center justify-center">
               <User className="w-5 h-5 text-apple-text-secondary dark:text-apple-dark-text-secondary" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-apple-text-primary dark:text-apple-dark-text-primary">
-                ゲスト
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-apple-text-primary dark:text-apple-dark-text-primary truncate">
+                {authUser ? (authUser.name ?? authUser.email) : 'ゲスト'}
               </p>
-              <p className="text-xs text-apple-text-secondary dark:text-apple-dark-text-secondary">
-                ログインしていません
+              <p className="text-xs text-apple-text-secondary dark:text-apple-dark-text-secondary truncate">
+                {authUser ? authUser.email : 'ログインしていません'}
               </p>
             </div>
           </div>

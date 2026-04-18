@@ -35,6 +35,7 @@ services:
     volumes:
       - ./apps/backend/src:/app/apps/backend/src:ro
       - ./apps/backend/prisma:/app/apps/backend/prisma
+      - ./apps/backend/generated:/app/apps/backend/generated
       - ./apps/backend/prisma.config.ts:/app/apps/backend/prisma.config.ts:ro
       - ./apps/backend/package.json:/app/apps/backend/package.json:ro
     depends_on:

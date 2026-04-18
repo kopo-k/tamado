@@ -28,6 +28,13 @@ pnpm-debug.log*
 # Testing
 coverage/
 
+# Prisma generated client
+apps/backend/generated/
+
+# Playwright
+apps/e2e/playwright-report/
+apps/e2e/test-results/
+
 # Misc
 *.local
 

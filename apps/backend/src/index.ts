@@ -2,6 +2,7 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import { loggerConfig } from './config/logger.js'
 import { errorHandler } from './plugins/errorHandler.js'
+import { registerRoutes } from './routes/index.js'
 
 const fastify = Fastify({
   logger: loggerConfig,
@@ -19,6 +20,8 @@ await fastify.register(errorHandler)
 fastify.get('/health', async () => {
   return { status: 'ok' }
 })
+
+await registerRoutes(fastify)
 
 const start = async () => {
   try {

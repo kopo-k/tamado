@@ -1,14 +1,54 @@
-import { Link } from 'react-router'
-import { Mail, Lock, Eye } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { Link, useNavigate } from 'react-router'
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { ApiError } from '@/lib/api'
 
 export function LoginPage() {
+  const navigate = useNavigate()
+  const login = useAuthStore(s => s.login)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    setError(null)
+    setIsLoading(true)
+
+    try {
+      await login({ email, password })
+      navigate('/')
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message)
+      } else {
+        setError('ログインに失敗しました')
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-apple-bg text-apple-text-primary dark:bg-apple-dark-bg dark:text-apple-dark-text-primary flex items-center justify-center">
       <div className="w-full max-w-md p-8 bg-apple-card border border-apple-border dark:bg-apple-dark-card dark:border-apple-dark-border rounded-2xl shadow-apple-lg">
 
         <h1 className="text-2xl font-bold text-center mb-8">ログイン</h1>
 
-        <form className="space-y-6">
+        {error && (
+          <div
+            role="alert"
+            className="mb-6 px-4 py-3 text-sm rounded-lg bg-red-50 text-red-700 border border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-900"
+          >
+            {error}
+          </div>
+        )}
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
 
           <div className="space-y-2">
             <label htmlFor="login-email" className="flex items-center gap-2 text-sm text-apple-text-secondary dark:text-apple-dark-text-secondary">
@@ -20,6 +60,8 @@ export function LoginPage() {
               type="email"
               required
               autoComplete="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-apple-bg-secondary border border-apple-border dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-apple-dark-blue focus:ring-2 focus:ring-apple-blue/20"
               placeholder="email@example.com"
             />
@@ -33,17 +75,21 @@ export function LoginPage() {
             <div className="relative">
               <input
                 id="login-password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 autoComplete="current-password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 className="w-full px-4 py-3 bg-apple-bg-secondary border border-apple-border dark:bg-apple-dark-bg-secondary dark:border-apple-dark-border rounded-lg focus:outline-none focus:border-apple-blue dark:focus:border-apple-dark-blue focus:ring-2 focus:ring-apple-blue/20"
                 placeholder="8文字以上"
               />
               <button
                 type="button"
+                onClick={() => setShowPassword(s => !s)}
+                aria-label={showPassword ? 'パスワードを隠す' : 'パスワードを表示'}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-apple-text-secondary hover:text-apple-text-primary dark:text-apple-dark-text-secondary dark:hover:text-white cursor-pointer p-1"
               >
-                {<Eye size={20} />}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
           </div>
@@ -56,9 +102,10 @@ export function LoginPage() {
 
           <button
             type="submit"
-            className="w-full py-3 bg-apple-blue hover:bg-apple-blue/90 dark:bg-apple-dark-blue dark:hover:bg-apple-dark-blue/90 disabled:opacity-50 rounded-lg font-medium transition-colors text-white"
+            disabled={isLoading}
+            className="w-full py-3 bg-apple-blue hover:bg-apple-blue/90 dark:bg-apple-dark-blue dark:hover:bg-apple-dark-blue/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white"
           >
-            ログイン
+            {isLoading ? 'ログイン中...' : 'ログイン'}
           </button>
         </form>
 
