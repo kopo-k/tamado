@@ -1,4 +1,5 @@
 import type { User } from '../../generated/prisma/client.js'
+import { Prisma } from '../../generated/prisma/client.js'
 import { userRepository } from '../repositories/user.repository.js'
 import { hashPassword, verifyPassword } from '../utils/password.js'
 import { generateToken } from '../utils/jwt.js'
@@ -36,11 +37,23 @@ export const authService = {
     }
 
     const hashed = await hashPassword(input.password)
-    const user = await userRepository.create({
-      email: input.email,
-      password: hashed,
-      name: input.name,
-    })
+    let user: User
+    try {
+      user = await userRepository.create({
+        email: input.email,
+        password: hashed,
+        name: input.name,
+      })
+    } catch (error) {
+      // 同時登録によるユニーク制約違反をハンドリング
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ConflictError('このメールアドレスは既に使用されています')
+      }
+      throw error
+    }
 
     const token = generateToken({ userId: user.id })
     return { user: toUserDTO(user), token }

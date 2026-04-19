@@ -78,8 +78,8 @@ jobs:
         run: |
           npx wait-on http://localhost:3000/health http://localhost:5173 --timeout 120000
 
-      - name: Prismaマイグレーション
-        run: docker compose exec -T backend pnpm db:push
+      - name: Prismaマイグレーション適用
+        run: docker compose exec -T backend pnpm exec prisma migrate deploy
 
       - name: Playwrightのブラウザをインストール
         run: pnpm --filter e2e exec playwright install --with-deps chromium
