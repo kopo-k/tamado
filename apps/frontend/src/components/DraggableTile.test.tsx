@@ -11,6 +11,8 @@ describe('DraggableTile', () => {
     embedUrl: 'https://www.youtube.com/embed/YIFDiECQUe8',
     x: 0,
     y: 0,
+    width: undefined as number | undefined,
+    height: undefined as number | undefined,
   }
 
   const renderDraggableTile = (stream = defaultStream) => {
@@ -44,5 +46,16 @@ describe('DraggableTile', () => {
   it('ドラッグハンドルが表示される', () => {
     renderDraggableTile()
     expect(screen.getByRole('button', { name: /ドラッグ/i })).toBeInTheDocument()
+  })
+
+  it('リサイズハンドルが表示される', () => {
+    renderDraggableTile()
+    expect(screen.getByRole('button', { name: /リサイズ/i })).toBeInTheDocument()
+  })
+
+  it('サイズがstyleで反映される', () => {
+    renderDraggableTile({ ...defaultStream, width: 800, height: 450 })
+    const tile = screen.getByRole('button', { name: /ドラッグ/i }).parentElement
+    expect(tile).toHaveStyle({ width: '800px', height: '450px' })
   })
 })

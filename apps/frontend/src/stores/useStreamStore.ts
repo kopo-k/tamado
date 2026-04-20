@@ -14,11 +14,18 @@ export type Stream = {
   height?: number
 }
 
+// サイズ制限
+const MIN_WIDTH = 200
+const MIN_HEIGHT = 150
+const MAX_WIDTH = 1920
+const MAX_HEIGHT = 1080
+
 type StreamStore = {
   streams: Stream[]
   addStream: (url: string) => boolean
   removeStream: (id: string) => void
   updateStreamPosition: (id: string, deltaX: number, deltaY: number) => void
+  updateStreamSize: (id: string, width: number, height: number) => void
   applyAutoLayout: (containerWidth: number, containerHeight: number, gap?: number) => void
 }
 
@@ -54,6 +61,17 @@ export const useStreamStore = create<StreamStore>((set) => ({
     set(state => ({
       streams: state.streams.map(s =>
         s.id === id ? { ...s, x: s.x + deltaX, y: s.y + deltaY } : s
+      ),
+    }))
+  },
+
+  updateStreamSize: (id: string, width: number, height: number) => {
+    const clampedWidth = Math.min(Math.max(width, MIN_WIDTH), MAX_WIDTH)
+    const clampedHeight = Math.min(Math.max(height, MIN_HEIGHT), MAX_HEIGHT)
+
+    set(state => ({
+      streams: state.streams.map(s =>
+        s.id === id ? { ...s, width: clampedWidth, height: clampedHeight } : s
       ),
     }))
   },
