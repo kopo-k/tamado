@@ -143,4 +143,49 @@ describe('useStreamStore', () => {
       expect(streams[1].x).toBe(expectedWidth + gap)
     })
   })
+
+  describe('updateStreamSize', () => {
+    it('ストリームのサイズを更新できる', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      const streamId = useStreamStore.getState().streams[0].id
+
+      useStreamStore.getState().updateStreamSize(streamId, 800, 450)
+
+      const stream = useStreamStore.getState().streams[0]
+      expect(stream.width).toBe(800)
+      expect(stream.height).toBe(450)
+    })
+
+    it('最小サイズ以下にはならない（幅200px、高さ150px）', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      const streamId = useStreamStore.getState().streams[0].id
+
+      useStreamStore.getState().updateStreamSize(streamId, 100, 50)
+
+      const stream = useStreamStore.getState().streams[0]
+      expect(stream.width).toBe(200)
+      expect(stream.height).toBe(150)
+    })
+
+    it('最大サイズ以上にはならない（幅1920px、高さ1080px）', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      const streamId = useStreamStore.getState().streams[0].id
+
+      useStreamStore.getState().updateStreamSize(streamId, 3000, 2000)
+
+      const stream = useStreamStore.getState().streams[0]
+      expect(stream.width).toBe(1920)
+      expect(stream.height).toBe(1080)
+    })
+
+    it('存在しないストリームIDでは何も起きない', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+
+      useStreamStore.getState().updateStreamSize('non-existent-id', 800, 450)
+
+      const stream = useStreamStore.getState().streams[0]
+      expect(stream.width).toBeUndefined()
+      expect(stream.height).toBeUndefined()
+    })
+  })
 })
