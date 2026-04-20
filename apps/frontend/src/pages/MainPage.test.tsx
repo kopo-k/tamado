@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router'
 import { useUIStore } from '@/stores/useUIStore'
@@ -106,7 +106,7 @@ describe('MainPage', () => {
 
   // 自動レイアウトテスト
   describe('自動レイアウト', () => {
-    it('autoLayoutRequestedがtrueになるとストリームの位置が更新される', async () => {
+    it('autoLayoutRequestIdが増加するとストリームの位置が更新される', async () => {
       // ストリームを追加
       useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
       useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test2')
@@ -116,26 +116,27 @@ describe('MainPage', () => {
       // 自動レイアウトをリクエスト
       useUIStore.getState().requestAutoLayout()
 
-      // 少し待ってから確認（useEffectの実行を待つ）
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      // ストリームの位置が更新されている
-      const streams = useStreamStore.getState().streams
-      expect(streams[0].width).toBeDefined()
-      expect(streams[0].height).toBeDefined()
-
-      // リクエストがリセットされている
-      expect(useUIStore.getState().autoLayoutRequested).toBe(false)
+      // ストリームの位置が更新されるのを待つ
+      await waitFor(() => {
+        const streams = useStreamStore.getState().streams
+        expect(streams[0].width).toBeDefined()
+        expect(streams[0].height).toBeDefined()
+      })
     })
 
-    it('ストリームが0個の場合でも自動レイアウトリクエストはリセットされる', async () => {
+    it('連続でリクエストしても毎回レイアウトが適用される', async () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+
       renderMainPage()
 
+      const initialId = useUIStore.getState().autoLayoutRequestId
+
+      // 2回連続でリクエスト
+      useUIStore.getState().requestAutoLayout()
       useUIStore.getState().requestAutoLayout()
 
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      expect(useUIStore.getState().autoLayoutRequested).toBe(false)
+      // IDが2増加している
+      expect(useUIStore.getState().autoLayoutRequestId).toBe(initialId + 2)
     })
   })
 })

@@ -4,16 +4,14 @@ type UIStore = {
   isSidebarOpen: boolean
   openSidebar: () => void
   closeSidebar: () => void
-  autoLayoutRequested: boolean
+  autoLayoutRequestId: number
   requestAutoLayout: () => void
-  resetAutoLayoutRequest: () => void
 }
 
 export const useUIStore = create<UIStore>((set) => ({
   isSidebarOpen: false,
   openSidebar: () => set({ isSidebarOpen: true }),
   closeSidebar: () => set({ isSidebarOpen: false }),
-  autoLayoutRequested: false,
-  requestAutoLayout: () => set({ autoLayoutRequested: true }),
-  resetAutoLayoutRequest: () => set({ autoLayoutRequested: false }),
+  autoLayoutRequestId: 0,
+  requestAutoLayout: () => set((state) => ({ autoLayoutRequestId: state.autoLayoutRequestId + 1 })),
 }))

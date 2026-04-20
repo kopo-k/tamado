@@ -129,13 +129,14 @@ describe('Sidebar', () => {
       expect(screen.getByRole('button', { name: /ライトモード/i })).toBeInTheDocument()
     })
 
-    it('自動レイアウトボタンをクリックするとautoLayoutRequestedがtrueになる', async () => {
+    it('自動レイアウトボタンをクリックするとautoLayoutRequestIdが増加する', async () => {
       const user = userEvent.setup()
+      const initialId = useUIStore.getState().autoLayoutRequestId
       renderSidebar()
 
       await user.click(screen.getByRole('button', { name: /自動レイアウト/i }))
 
-      expect(useUIStore.getState().autoLayoutRequested).toBe(true)
+      expect(useUIStore.getState().autoLayoutRequestId).toBe(initialId + 1)
     })
   })
 

@@ -14,19 +14,15 @@ export function MainPage() {
   const streams = useStreamStore(s => s.streams)
   const updateStreamPosition = useStreamStore(s => s.updateStreamPosition)
   const applyAutoLayout = useStreamStore(s => s.applyAutoLayout)
-  const autoLayoutRequested = useUIStore(s => s.autoLayoutRequested)
-  const resetAutoLayoutRequest = useUIStore(s => s.resetAutoLayoutRequest)
+  const autoLayoutRequestId = useUIStore(s => s.autoLayoutRequestId)
 
   // 自動レイアウトリクエストを監視
   useEffect(() => {
-    if (autoLayoutRequested && containerRef.current) {
+    if (autoLayoutRequestId > 0 && containerRef.current) {
       const { clientWidth, clientHeight } = containerRef.current
       applyAutoLayout(clientWidth, clientHeight, LAYOUT_GAP)
-      resetAutoLayoutRequest()
-    } else if (autoLayoutRequested) {
-      resetAutoLayoutRequest()
     }
-  }, [autoLayoutRequested, applyAutoLayout, resetAutoLayoutRequest])
+  }, [autoLayoutRequestId, applyAutoLayout])
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, delta } = event
