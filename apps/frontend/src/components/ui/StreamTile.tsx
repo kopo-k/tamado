@@ -8,12 +8,17 @@ type StreamTileProps = {
 }
 
 export function StreamTile({ stream, onRemove, isDragging }: StreamTileProps) {
+  // 自動レイアウト適用時（heightが設定されている）は親の高さを埋める
+  // 手動配置時は従来通り16:9アスペクト比を維持
+  const hasAutoLayout = stream.height !== undefined
+  const iframeClass = hasAutoLayout ? 'w-full h-full' : 'w-full aspect-video'
+
   return (
-    <div className="relative group rounded-lg overflow-hidden border border-apple-border dark:border-apple-dark-border shadow-apple">
+    <div className={`relative group rounded-lg overflow-hidden border border-apple-border dark:border-apple-dark-border shadow-apple ${hasAutoLayout ? 'h-full' : ''}`}>
       <iframe
         src={stream.embedUrl}
         title={`${stream.platform} player`}
-        className="w-full aspect-video"
+        className={iframeClass}
         style={{ pointerEvents: isDragging ? 'none' : 'auto' }}
         allowFullScreen
         allow="autoplay; encrypted-media"

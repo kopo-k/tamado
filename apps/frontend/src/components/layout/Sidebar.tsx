@@ -1,6 +1,6 @@
-import { X, Sun, Moon, User, Settings, HelpCircle, Mail } from 'lucide-react'
+import { X, Sun, Moon, User, Settings, HelpCircle, Mail, LayoutGrid } from 'lucide-react'
 // 実装後に有効化
-// import { Save, FolderOpen, LayoutGrid, Flame } from 'lucide-react'
+// import { Save, FolderOpen, Flame } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { useUIStore } from '@/stores/useUIStore'
 import { useThemeStore } from '@/stores/useThemeStore'
@@ -8,11 +8,17 @@ import { useThemeStore } from '@/stores/useThemeStore'
 export function Sidebar() {
   const isSidebarOpen = useUIStore(s => s.isSidebarOpen)
   const closeSidebar = useUIStore(s => s.closeSidebar)
+  const requestAutoLayout = useUIStore(s => s.requestAutoLayout)
   const theme = useThemeStore(s => s.theme)
   const toggleTheme = useThemeStore(s => s.toggleTheme)
   const navigate = useNavigate()
   // 実装後に有効化
   // const [excitementDetection, setExcitementDetection] = useState(false)
+
+  const handleAutoLayout = () => {
+    requestAutoLayout()
+    closeSidebar()
+  }
 
   const isOpen = isSidebarOpen
   const onClose = closeSidebar
@@ -50,12 +56,13 @@ export function Sidebar() {
 
         {/* メニュー内容 */}
         <nav className="p-4 space-y-6">
-          {/* レイアウト（実装後に有効化）*/}
-          {/* <MenuSection title="レイアウト" icon={<LayoutGrid className="w-4 h-4" />}>
-            <MenuItem onClick={() => { onClose(); }}>
+          {/* レイアウト */}
+          <MenuSection title="レイアウト" icon={<LayoutGrid className="w-4 h-4" />}>
+            <MenuItem onClick={handleAutoLayout}>
+              <LayoutGrid className="w-4 h-4" />
               自動レイアウト
             </MenuItem>
-          </MenuSection> */}
+          </MenuSection>
 
           {/* 盛り上がり（実装後に有効化）*/}
           {/* <MenuSection title="盛り上がり" icon={<Flame className="w-4 h-4" />}>

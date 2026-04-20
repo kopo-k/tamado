@@ -18,7 +18,8 @@ export function DraggableTile({ stream }: DraggableTileProps) {
     position: 'absolute',
     left: `${stream.x + (transform?.x ?? 0)}px`,
     top: `${stream.y + (transform?.y ?? 0)}px`,
-    width: '480px',
+    width: stream.width ? `${stream.width}px` : '480px',
+    height: stream.height ? `${stream.height}px` : undefined,
   }
 
   return (
