@@ -84,4 +84,63 @@ describe('useStreamStore', () => {
 
     expect(useStreamStore.getState().streams).toHaveLength(2)
   })
+
+  describe('applyAutoLayout', () => {
+    it('自動レイアウトを適用すると各ストリームの位置とサイズが更新される', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test2')
+
+      const containerWidth = 1200
+      const containerHeight = 600
+      useStreamStore.getState().applyAutoLayout(containerWidth, containerHeight)
+
+      const streams = useStreamStore.getState().streams
+      // 2つのストリームは横並び（2x1グリッド）
+      expect(streams[0].x).toBe(0)
+      expect(streams[0].y).toBe(0)
+      expect(streams[0].width).toBe(600)
+      expect(streams[0].height).toBe(600)
+
+      expect(streams[1].x).toBe(600)
+      expect(streams[1].y).toBe(0)
+      expect(streams[1].width).toBe(600)
+      expect(streams[1].height).toBe(600)
+    })
+
+    it('ストリームが0個の場合は何も起きない', () => {
+      useStreamStore.getState().applyAutoLayout(1200, 600)
+
+      expect(useStreamStore.getState().streams).toHaveLength(0)
+    })
+
+    it('4つのストリームは2x2グリッドに配置される', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test2')
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test3')
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test4')
+
+      useStreamStore.getState().applyAutoLayout(1200, 600)
+
+      const streams = useStreamStore.getState().streams
+      // 2x2グリッド
+      expect(streams[0]).toMatchObject({ x: 0, y: 0, width: 600, height: 300 })
+      expect(streams[1]).toMatchObject({ x: 600, y: 0, width: 600, height: 300 })
+      expect(streams[2]).toMatchObject({ x: 0, y: 300, width: 600, height: 300 })
+      expect(streams[3]).toMatchObject({ x: 600, y: 300, width: 600, height: 300 })
+    })
+
+    it('ギャップを指定できる', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test2')
+
+      const gap = 16
+      useStreamStore.getState().applyAutoLayout(1200, 600, gap)
+
+      const streams = useStreamStore.getState().streams
+      // ギャップを考慮したサイズ
+      const expectedWidth = (1200 - gap) / 2
+      expect(streams[0].width).toBe(expectedWidth)
+      expect(streams[1].x).toBe(expectedWidth + gap)
+    })
+  })
 })

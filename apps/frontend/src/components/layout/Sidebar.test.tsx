@@ -50,11 +50,10 @@ describe('Sidebar', () => {
       expect(screen.getByRole('button', { name: /ダークモード|ライトモード/i })).toBeInTheDocument()
     })
 
-    // 実装後に有効化
-    // it('自動レイアウトボタンが表示される', () => {
-    //   renderSidebar()
-    //   expect(screen.getByRole('button', { name: /自動レイアウト/i })).toBeInTheDocument()
-    // })
+    it('自動レイアウトボタンが表示される', () => {
+      renderSidebar()
+      expect(screen.getByRole('button', { name: /自動レイアウト/i })).toBeInTheDocument()
+    })
 
     // it('レイアウト保存ボタンが表示される', () => {
     //   renderSidebar()
@@ -128,6 +127,15 @@ describe('Sidebar', () => {
 
       expect(useThemeStore.getState().theme).toBe('dark')
       expect(screen.getByRole('button', { name: /ライトモード/i })).toBeInTheDocument()
+    })
+
+    it('自動レイアウトボタンをクリックするとautoLayoutRequestedがtrueになる', async () => {
+      const user = userEvent.setup()
+      renderSidebar()
+
+      await user.click(screen.getByRole('button', { name: /自動レイアウト/i }))
+
+      expect(useUIStore.getState().autoLayoutRequested).toBe(true)
     })
   })
 

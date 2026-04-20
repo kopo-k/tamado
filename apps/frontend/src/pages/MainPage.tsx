@@ -1,13 +1,32 @@
+import { useRef, useEffect } from 'react'
 import { DndContext, type DragEndEvent } from '@dnd-kit/core'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { DraggableTile } from '@/components/DraggableTile'
 import { useStreamStore } from '@/stores/useStreamStore'
+import { useUIStore } from '@/stores/useUIStore'
+
+const LAYOUT_GAP = 16
 
 export function MainPage() {
+  const containerRef = useRef<HTMLDivElement>(null)
   const streams = useStreamStore(s => s.streams)
   const updateStreamPosition = useStreamStore(s => s.updateStreamPosition)
+  const applyAutoLayout = useStreamStore(s => s.applyAutoLayout)
+  const autoLayoutRequested = useUIStore(s => s.autoLayoutRequested)
+  const resetAutoLayoutRequest = useUIStore(s => s.resetAutoLayoutRequest)
+
+  // 自動レイアウトリクエストを監視
+  useEffect(() => {
+    if (autoLayoutRequested && containerRef.current) {
+      const { clientWidth, clientHeight } = containerRef.current
+      applyAutoLayout(clientWidth, clientHeight, LAYOUT_GAP)
+      resetAutoLayoutRequest()
+    } else if (autoLayoutRequested) {
+      resetAutoLayoutRequest()
+    }
+  }, [autoLayoutRequested, applyAutoLayout, resetAutoLayoutRequest])
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, delta } = event
@@ -44,7 +63,10 @@ export function MainPage() {
           {streams.length === 0 ? (
             <EmptyState />
           ) : (
-            <div className="p-4 relative h-[calc(100vh-64px)]">
+            <div
+              ref={containerRef}
+              className="p-4 relative h-[calc(100vh-64px)]"
+            >
               {streams.map(stream => (
                 <DraggableTile
                   key={stream.id}

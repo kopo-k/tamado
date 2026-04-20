@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { parseStreamUrl } from '@/utils/parseUrl'
 import { getEmbedUrl } from '@/utils/embedUrl'
+import { calculateGridLayout } from '@/hooks/useAutoLayout'
 
 export type Stream = {
   id: string
@@ -9,6 +10,8 @@ export type Stream = {
   embedUrl: string
   x: number
   y: number
+  width?: number
+  height?: number
 }
 
 type StreamStore = {
@@ -16,6 +19,7 @@ type StreamStore = {
   addStream: (url: string) => boolean
   removeStream: (id: string) => void
   updateStreamPosition: (id: string, deltaX: number, deltaY: number) => void
+  applyAutoLayout: (containerWidth: number, containerHeight: number, gap?: number) => void
 }
 
 export const useStreamStore = create<StreamStore>((set) => ({
@@ -52,5 +56,28 @@ export const useStreamStore = create<StreamStore>((set) => ({
         s.id === id ? { ...s, x: s.x + deltaX, y: s.y + deltaY } : s
       ),
     }))
+  },
+
+  applyAutoLayout: (containerWidth: number, containerHeight: number, gap: number = 0) => {
+    set(state => {
+      if (state.streams.length === 0) return state
+
+      const layout = calculateGridLayout(
+        state.streams.length,
+        containerWidth,
+        containerHeight,
+        gap
+      )
+
+      return {
+        streams: state.streams.map((stream, index) => ({
+          ...stream,
+          x: layout.positions[index].x,
+          y: layout.positions[index].y,
+          width: layout.positions[index].width,
+          height: layout.positions[index].height,
+        })),
+      }
+    })
   },
 }))
