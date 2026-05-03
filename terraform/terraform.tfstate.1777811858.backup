@@ -1,0 +1,530 @@
+{
+  "version": 4,
+  "terraform_version": "1.15.1",
+  "serial": 19,
+  "lineage": "c0cf7dfa-f1e2-6b32-be96-aa6993d6bc19",
+  "outputs": {
+    "artifact_registry": {
+      "value": "asia-northeast1-docker.pkg.dev/tamado/tamado",
+      "type": "string"
+    },
+    "backend_sa_email": {
+      "value": "tamado-backend-sa@tamado.iam.gserviceaccount.com",
+      "type": "string"
+    },
+    "frontend_sa_email": {
+      "value": "tamado-frontend-sa@tamado.iam.gserviceaccount.com",
+      "type": "string"
+    },
+    "github_actions_sa_email": {
+      "value": "tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "google_artifact_registry_repository",
+      "name": "tamado",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "cleanup_policies": [],
+            "cleanup_policy_dry_run": false,
+            "create_time": "2026-03-30T02:26:47.115349Z",
+            "description": "",
+            "docker_config": [],
+            "effective_labels": {},
+            "format": "DOCKER",
+            "id": "projects/tamado/locations/asia-northeast1/repositories/tamado",
+            "kms_key_name": "",
+            "labels": {},
+            "location": "asia-northeast1",
+            "maven_config": [],
+            "mode": "STANDARD_REPOSITORY",
+            "name": "tamado",
+            "project": "tamado",
+            "remote_repository_config": [],
+            "repository_id": "tamado",
+            "terraform_labels": {},
+            "timeouts": null,
+            "update_time": "2026-04-20T07:20:45.871815Z",
+            "virtual_repository_config": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMCJ9"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_cloud_run_v2_service",
+      "name": "backend",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 0,
+          "attributes": {
+            "annotations": null,
+            "binary_authorization": [],
+            "client": null,
+            "client_version": null,
+            "conditions": null,
+            "create_time": null,
+            "creator": null,
+            "custom_audiences": null,
+            "delete_time": null,
+            "description": null,
+            "effective_annotations": null,
+            "effective_labels": null,
+            "etag": null,
+            "expire_time": null,
+            "generation": null,
+            "id": "projects/tamado/locations/asia-northeast1/services/tamado-backend",
+            "ingress": null,
+            "labels": null,
+            "last_modifier": null,
+            "latest_created_revision": null,
+            "latest_ready_revision": null,
+            "launch_stage": null,
+            "location": "asia-northeast1",
+            "name": "tamado-backend",
+            "observed_generation": null,
+            "project": "tamado",
+            "reconciling": null,
+            "template": [
+              {
+                "annotations": null,
+                "containers": [
+                  {
+                    "args": null,
+                    "command": null,
+                    "depends_on": null,
+                    "env": [
+                      {
+                        "name": "DATABASE_URL",
+                        "value": "",
+                        "value_source": [
+                          {
+                            "secret_key_ref": [
+                              {
+                                "secret": "DATABASE_URL",
+                                "version": "latest"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "NODE_ENV",
+                        "value": "production",
+                        "value_source": []
+                      }
+                    ],
+                    "image": "asia-northeast1-docker.pkg.dev/tamado/tamado/backend:latest",
+                    "liveness_probe": [],
+                    "name": "",
+                    "ports": [
+                      {
+                        "container_port": 3000,
+                        "name": ""
+                      }
+                    ],
+                    "resources": [],
+                    "startup_probe": [],
+                    "volume_mounts": [],
+                    "working_dir": ""
+                  }
+                ],
+                "encryption_key": "",
+                "execution_environment": "",
+                "labels": null,
+                "max_instance_request_concurrency": 0,
+                "revision": "",
+                "scaling": [],
+                "service_account": "tamado-backend-sa@tamado.iam.gserviceaccount.com",
+                "session_affinity": false,
+                "timeout": "",
+                "volumes": [],
+                "vpc_access": []
+              }
+            ],
+            "terminal_condition": null,
+            "terraform_labels": null,
+            "timeouts": null,
+            "traffic": null,
+            "traffic_statuses": null,
+            "uid": null,
+            "update_time": null,
+            "uri": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "google_secret_manager_secret.database_url",
+            "google_secret_manager_secret_version.database_url",
+            "google_service_account.backend"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "backend_secret",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZQ6OkRaXQ=",
+            "id": "tamado/roles/secretmanager.secretAccessor/serviceAccount:tamado-backend-sa@tamado.iam.gserviceaccount.com",
+            "member": "serviceAccount:tamado-backend-sa@tamado.iam.gserviceaccount.com",
+            "project": "tamado",
+            "role": "roles/secretmanager.secretAccessor"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_service_account.backend"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "github_registry",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZQ6OkRaXQ=",
+            "id": "tamado/roles/artifactregistry.writer/serviceAccount:tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "member": "serviceAccount:tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "project": "tamado",
+            "role": "roles/artifactregistry.writer"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_service_account.github_actions"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "github_run",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZQ6OkRaXQ=",
+            "id": "tamado/roles/run.admin/serviceAccount:tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "member": "serviceAccount:tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "project": "tamado",
+            "role": "roles/run.admin"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_service_account.github_actions"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "github_sa_user",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZQ6OkRaXQ=",
+            "id": "tamado/roles/iam.serviceAccountUser/serviceAccount:tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "member": "serviceAccount:tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "project": "tamado",
+            "role": "roles/iam.serviceAccountUser"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_service_account.github_actions"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_service",
+      "name": "apis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "artifactregistry.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "tamado/artifactregistry.googleapis.com",
+            "project": "tamado",
+            "service": "artifactregistry.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "iam.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "tamado/iam.googleapis.com",
+            "project": "tamado",
+            "service": "iam.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "identitytoolkit.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "tamado/identitytoolkit.googleapis.com",
+            "project": "tamado",
+            "service": "identitytoolkit.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "run.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "tamado/run.googleapis.com",
+            "project": "tamado",
+            "service": "run.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "secretmanager.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "tamado/secretmanager.googleapis.com",
+            "project": "tamado",
+            "service": "secretmanager.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_secret_manager_secret",
+      "name": "database_url",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "annotations": null,
+            "create_time": "2026-05-03T12:25:38.523425Z",
+            "effective_annotations": {},
+            "effective_labels": {},
+            "expire_time": "",
+            "id": "projects/tamado/secrets/DATABASE_URL",
+            "labels": null,
+            "name": "projects/282066345096/secrets/DATABASE_URL",
+            "project": "tamado",
+            "replication": [
+              {
+                "auto": [
+                  {
+                    "customer_managed_encryption": []
+                  }
+                ],
+                "user_managed": []
+              }
+            ],
+            "rotation": [],
+            "secret_id": "DATABASE_URL",
+            "terraform_labels": {},
+            "timeouts": null,
+            "topics": [],
+            "ttl": null,
+            "version_aliases": null,
+            "version_destroy_ttl": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_secret_manager_secret_version",
+      "name": "database_url",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "create_time": "2026-05-03T12:25:42.016362Z",
+            "deletion_policy": "DELETE",
+            "destroy_time": "",
+            "enabled": true,
+            "id": "projects/282066345096/secrets/DATABASE_URL/versions/1",
+            "is_secret_data_base64": false,
+            "name": "projects/282066345096/secrets/DATABASE_URL/versions/1",
+            "secret": "projects/tamado/secrets/DATABASE_URL",
+            "secret_data": "postgresql://neondb_owner:npg_i7ynwuJo1pRb@ep-fragrant-credit-aouatx72.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require",
+            "timeouts": null,
+            "version": "1"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_data"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "google_secret_manager_secret.database_url"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "backend",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "tamado-backend-sa",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "tamado Backend Service Account",
+            "email": "tamado-backend-sa@tamado.iam.gserviceaccount.com",
+            "id": "projects/tamado/serviceAccounts/tamado-backend-sa@tamado.iam.gserviceaccount.com",
+            "member": "serviceAccount:tamado-backend-sa@tamado.iam.gserviceaccount.com",
+            "name": "projects/tamado/serviceAccounts/tamado-backend-sa@tamado.iam.gserviceaccount.com",
+            "project": "tamado",
+            "timeouts": null,
+            "unique_id": "111119554067248495595"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "frontend",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "tamado-frontend-sa",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "tamado Frontend Service Account",
+            "email": "tamado-frontend-sa@tamado.iam.gserviceaccount.com",
+            "id": "projects/tamado/serviceAccounts/tamado-frontend-sa@tamado.iam.gserviceaccount.com",
+            "member": "serviceAccount:tamado-frontend-sa@tamado.iam.gserviceaccount.com",
+            "name": "projects/tamado/serviceAccounts/tamado-frontend-sa@tamado.iam.gserviceaccount.com",
+            "project": "tamado",
+            "timeouts": null,
+            "unique_id": "115075441485542036236"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "github_actions",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "tamado-github-actions-sa",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "tamado GitHub Actions Service Account",
+            "email": "tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "id": "projects/tamado/serviceAccounts/tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "member": "serviceAccount:tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "name": "projects/tamado/serviceAccounts/tamado-github-actions-sa@tamado.iam.gserviceaccount.com",
+            "project": "tamado",
+            "timeouts": null,
+            "unique_id": "112300825278751691435"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
