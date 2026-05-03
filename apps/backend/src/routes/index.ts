@@ -5,8 +5,8 @@ import type { FastifyInstance } from 'fastify'
 // import { layoutRoutes } from './layouts.js'
 // import { streamRoutes } from './streams.js'
 
-export async function registerRoutes(app: FastifyInstance) {
-  // await app.register(authRoutes, { prefix: '/api/auth' })
-  // await app.register(layoutRoutes, { prefix: '/api/layouts' })
-  // await app.register(streamRoutes, { prefix: '/api/streams' })
+export async function registerRoutes(_app: FastifyInstance) {
+  // await _app.register(authRoutes, { prefix: '/api/auth' })
+  // await _app.register(layoutRoutes, { prefix: '/api/layouts' })
+  // await _app.register(streamRoutes, { prefix: '/api/streams' })
 }
