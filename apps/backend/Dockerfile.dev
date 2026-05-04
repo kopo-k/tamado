@@ -10,6 +10,12 @@ COPY package.json ./
 
 RUN pnpm install --filter=backend --frozen-lockfile
 
+# Prisma クライアントの生成に必要なファイルをコピー
+COPY apps/backend/prisma ./apps/backend/prisma/
+COPY apps/backend/prisma.config.ts ./apps/backend/
+
+RUN cd /app/apps/backend && DATABASE_URL=postgresql://dummy:dummy@localhost/dummy pnpm exec prisma generate
+
 WORKDIR /app/apps/backend
 
 EXPOSE 3000

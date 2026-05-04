@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { Menu, Plus, AlertCircle } from 'lucide-react'
+import { Menu, Plus, AlertCircle, LogOut } from 'lucide-react'
 import { Link } from 'react-router'
 import { useStreamStore } from '@/stores/useStreamStore'
 import { useUIStore } from '@/stores/useUIStore'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 export function Header() {
   const addStream = useStreamStore(s => s.addStream)
   const openSidebar = useUIStore(s => s.openSidebar)
+  const { user, logout } = useAuthStore()
 
   const [url, setUrl] = useState('')
   const [error, setError] = useState('')
@@ -84,22 +86,39 @@ export function Header() {
           )}
         </div>
 
-        {/* 右側: ボタン（認証実装後に有効化） */}
-        {/* <div className="flex items-center gap-2">
-          <Link
-            to="/login"
-            className="px-4 py-2 border border-apple-border dark:border-apple-dark-border rounded-lg text-sm hover:bg-apple-bg-secondary hover:border-apple-blue/30 dark:hover:bg-apple-dark-card dark:hover:border-apple-dark-blue/50 transition-all duration-300"
-          >
-            ログイン
-          </Link>
-
-          <Link
-            to="/signup"
-            className="px-4 py-2 bg-apple-blue/10 border border-apple-blue/20 dark:bg-apple-dark-blue/20 dark:border-apple-dark-blue/30 rounded-lg text-sm text-apple-blue dark:text-apple-dark-blue hover:bg-apple-blue/20 hover:shadow-apple dark:hover:bg-apple-dark-blue/30 transition-all duration-300"
-          >
-            新規登録
-          </Link>
-        </div> */}
+        {/* 右側: 認証ボタン */}
+        <div className="flex items-center gap-2 shrink-0">
+          {user ? (
+            <>
+              <span className="text-sm text-apple-text-secondary dark:text-apple-dark-text-secondary hidden sm:block truncate max-w-[160px]">
+                {user.email}
+              </span>
+              <button
+                onClick={logout}
+                aria-label="ログアウト"
+                className="flex items-center gap-1.5 px-3 py-2 border border-apple-border dark:border-apple-dark-border rounded-lg text-sm hover:bg-apple-bg-secondary dark:hover:bg-apple-dark-card transition-all duration-300 cursor-pointer min-h-[44px]"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">ログアウト</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="px-4 py-2 border border-apple-border dark:border-apple-dark-border rounded-lg text-sm hover:bg-apple-bg-secondary hover:border-apple-blue/30 dark:hover:bg-apple-dark-card dark:hover:border-apple-dark-blue/50 transition-all duration-300 min-h-[44px] flex items-center"
+              >
+                ログイン
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 bg-apple-blue/10 border border-apple-blue/20 dark:bg-apple-dark-blue/20 dark:border-apple-dark-blue/30 rounded-lg text-sm text-apple-blue dark:text-apple-dark-blue hover:bg-apple-blue/20 dark:hover:bg-apple-dark-blue/30 transition-all duration-300 min-h-[44px] flex items-center"
+              >
+                新規登録
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </header>
   )

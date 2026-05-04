@@ -48,7 +48,7 @@ jobs:
             --region ${{ env.REGION }} \
             --service-account tamado-backend-sa@${{ env.PROJECT_ID }}.iam.gserviceaccount.com \
             --set-secrets DATABASE_URL=DATABASE_URL:latest \
-            --set-env-vars NODE_ENV=production \
+            --set-env-vars NODE_ENV=production,FIREBASE_PROJECT_ID=${{ env.PROJECT_ID }} \
             --allow-unauthenticated \
             --port 3000
 
