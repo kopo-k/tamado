@@ -18,8 +18,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
-      // テスト環境ではFirebaseの初期化をmockに差し替え
-      [resolve(__dirname, 'src/lib/firebase')]: resolve(__dirname, 'src/test/mocks/firebase.ts'),
     },
   },
 })
