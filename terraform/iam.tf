@@ -43,3 +43,10 @@ resource "google_project_iam_member" "github_sa_user" {
   role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
+
+# GitHub Actions SA: Secret Manager読み取り権限（マイグレーション時にDATABASE_URLを取得するため）
+resource "google_project_iam_member" "github_secret" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
+}
