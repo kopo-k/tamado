@@ -10,6 +10,10 @@ COPY apps/backend/package.json ./apps/backend/
 
 RUN pnpm install --filter=backend --frozen-lockfile
 
+COPY apps/backend/prisma ./apps/backend/prisma/
+COPY apps/backend/prisma.config.ts ./apps/backend/
+RUN cd /app/apps/backend && DATABASE_URL=postgresql://dummy:dummy@localhost/dummy pnpm exec prisma generate
+
 COPY apps/backend ./apps/backend
 
 RUN pnpm --filter backend build
