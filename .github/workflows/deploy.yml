@@ -29,6 +29,24 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install backend dependencies
+        run: pnpm install --filter=backend --frozen-lockfile
+
+      - name: Run database migrations
+        run: |
+          DATABASE_URL=$(gcloud secrets versions access latest --secret=DATABASE_URL --project=${{ env.PROJECT_ID }})
+          cd apps/backend && DATABASE_URL=$DATABASE_URL pnpm exec prisma migrate deploy
+
       - name: Build backend image
         run: |
           docker build -f apps/backend/Dockerfile.prod \
