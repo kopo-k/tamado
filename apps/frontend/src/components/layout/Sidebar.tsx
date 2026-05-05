@@ -1,9 +1,12 @@
-import { X, Sun, Moon, User, Settings, HelpCircle, Mail, LayoutGrid } from 'lucide-react'
-// 実装後に有効化
-// import { Save, FolderOpen, Flame } from 'lucide-react'
+import { X, Sun, Moon, User, Settings, HelpCircle, Mail, LayoutGrid, Save, FolderOpen } from 'lucide-react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useUIStore } from '@/stores/useUIStore'
 import { useThemeStore } from '@/stores/useThemeStore'
+import { useLayouts } from '@/hooks/useLayouts'
+import { useStreamStore, type Stream } from '@/stores/useStreamStore'
+import { SaveLayoutModal } from '../modal/SaveLayoutModal'
+import { LoadLayoutModal } from '../modal/LoadLayoutModal'
 
 export function Sidebar() {
   const isSidebarOpen = useUIStore(s => s.isSidebarOpen)
@@ -12,8 +15,11 @@ export function Sidebar() {
   const theme = useThemeStore(s => s.theme)
   const toggleTheme = useThemeStore(s => s.toggleTheme)
   const navigate = useNavigate()
-  // 実装後に有効化
-  // const [excitementDetection, setExcitementDetection] = useState(false)
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false)
+  const { layouts, saveLayout, deleteLayout } = useLayouts()
+  const streams = useStreamStore(s => s.streams)
+  const setStreams = useStreamStore(s => s.setStreams)
 
   const handleAutoLayout = () => {
     requestAutoLayout()
@@ -73,17 +79,17 @@ export function Sidebar() {
             />
           </MenuSection> */}
 
-          {/* 保存/読込（実装後に有効化）*/}
-          {/* <MenuSection title="保存/読込" icon={<Save className="w-4 h-4" />}>
-            <MenuItem onClick={() => { onClose(); }}>
+          {/* 保存/読込 */}
+          <MenuSection title="保存/読込" icon={<Save className="w-4 h-4" />}>
+            <MenuItem onClick={() => { closeSidebar(); setIsSaveModalOpen(true) }}>
               <Save className="w-4 h-4" />
               レイアウト保存
             </MenuItem>
-            <MenuItem onClick={() => { onClose(); }}>
+            <MenuItem onClick={() => { closeSidebar(); setIsLoadModalOpen(true) }}>
               <FolderOpen className="w-4 h-4" />
               レイアウト読込
             </MenuItem>
-          </MenuSection> */}
+          </MenuSection>
 
           {/* 設定 */}
           <MenuSection title="設定" icon={<Settings className="w-4 h-4" />}>
@@ -122,6 +128,23 @@ export function Sidebar() {
           </div>
         </div>
       </aside>
+      {/* 保存モーダル */}
+      <SaveLayoutModal
+        isOpen={isSaveModalOpen}
+        onClose={() => setIsSaveModalOpen(false)}
+        onSave={async (name) => {
+          await saveLayout(name, streams)
+        }}
+      />
+
+      {/* 読込モーダル */}
+      <LoadLayoutModal
+        isOpen={isLoadModalOpen}
+        onClose={() => setIsLoadModalOpen(false)}
+        layouts={layouts}
+        onLoad={(layout) => setStreams(layout.config as Stream[])}
+        onDelete={deleteLayout}
+      />
     </>
   )
 }
