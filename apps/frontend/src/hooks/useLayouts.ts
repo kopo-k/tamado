@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuthStore } from '../stores/useAuthStore'
-import { layoutStorage, type LocalLayout } from '../utils/layoutStorage'
+import { layoutStorage } from '../utils/layoutStorage'
 
 type Layout = {
   id: string
@@ -13,26 +13,22 @@ export function useLayouts() {
   const { user } = useAuthStore()
   const [layouts, setLayouts] = useState<Layout[]>([])
 
-  // レイアウト一覧を取得する
+  // ログイン状態に応じてレイアウト一覧を取得する
   useEffect(() => {
     if (user) {
       // ログイン済み → APIから取得
-      fetchLayouts()
+      user.getIdToken().then((token) => {
+        fetch('/api/layouts', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((res) => res.json())
+          .then((data) => setLayouts(data.layouts))
+      })
     } else {
       // 未ログイン → LocalStorageから取得
       setLayouts(layoutStorage.loadAll())
     }
   }, [user])
-
-  // APIからレイアウト一覧を取得
-  async function fetchLayouts() {
-    const token = await user!.getIdToken()
-    const res = await fetch('/api/layouts', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    const data = await res.json()
-    setLayouts(data.layouts)
-  }
 
   // レイアウトを保存する
   async function saveLayout(name: string, config: unknown) {
