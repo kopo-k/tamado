@@ -16,7 +16,7 @@ export function useLayouts() {
   // ログイン状態に応じてレイアウト一覧を取得する
   useEffect(() => {
     if (user) {
-      // ログイン済み → APIから取得
+      // ログイン済み → APIから取得（非同期）
       user.getIdToken().then((token) => {
         fetch('/api/layouts', {
           headers: { Authorization: `Bearer ${token}` },
@@ -25,8 +25,8 @@ export function useLayouts() {
           .then((data) => setLayouts(data.layouts))
       })
     } else {
-      // 未ログイン → LocalStorageから取得
-      setLayouts(layoutStorage.loadAll())
+      // 未ログイン → LocalStorageから取得（Promise化してuseEffect内の同期setState警告を回避）
+      Promise.resolve(layoutStorage.loadAll()).then(setLayouts)
     }
   }, [user])
 
