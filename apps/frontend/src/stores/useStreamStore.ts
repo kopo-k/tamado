@@ -27,6 +27,7 @@ type StreamStore = {
   updateStreamPosition: (id: string, deltaX: number, deltaY: number) => void
   updateStreamSize: (id: string, width: number, height: number) => void
   applyAutoLayout: (containerWidth: number, containerHeight: number, gap?: number) => void
+  setStreams: (streams: Stream[]) => void
 }
 
 export const useStreamStore = create<StreamStore>((set) => ({
@@ -74,6 +75,10 @@ export const useStreamStore = create<StreamStore>((set) => ({
         s.id === id ? { ...s, width: clampedWidth, height: clampedHeight } : s
       ),
     }))
+  },
+
+  setStreams: (streams: Stream[]) => {
+    set({ streams })
   },
 
   applyAutoLayout: (containerWidth: number, containerHeight: number, gap: number = 0) => {
