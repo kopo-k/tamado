@@ -104,3 +104,31 @@ body {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--color-apple-dark-border);
 }
+
+/* 音声ONタイルの枠線パルスアニメーション（YouTube：赤） */
+@keyframes pulse-border-youtube {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7), 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0), 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* 音声ONタイルの枠線パルスアニメーション（Twitch：紫） */
+@keyframes pulse-border-twitch {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(145, 70, 255, 0.7), 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(145, 70, 255, 0), 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.animate-pulse-border-youtube {
+  animation: pulse-border-youtube 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-border-twitch {
+  animation: pulse-border-twitch 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

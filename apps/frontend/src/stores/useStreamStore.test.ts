@@ -188,4 +188,44 @@ describe('useStreamStore', () => {
       expect(stream.height).toBeUndefined()
     })
   })
+
+  describe('toggleMute', () => {
+    it('isMuted=falseの場合、toggleMuteでtrueに変更される', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      const streamId = useStreamStore.getState().streams[0].id
+
+      useStreamStore.getState().toggleMute(streamId)
+
+      const stream = useStreamStore.getState().streams[0]
+      expect(stream.isMuted).toBe(true)
+    })
+
+    it('isMuted=trueの場合、toggleMuteでfalseに変更される', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      const streamId = useStreamStore.getState().streams[0].id
+
+      // 最初をmuteに設定
+      useStreamStore.setState(state => ({
+        streams: state.streams.map(s => ({ ...s, isMuted: true })),
+      }))
+
+      useStreamStore.getState().toggleMute(streamId)
+
+      const stream = useStreamStore.getState().streams[0]
+      expect(stream.isMuted).toBe(false)
+    })
+
+    it('複数ストリームがある場合、指定したストリームのみ切り替わる', () => {
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test1')
+      useStreamStore.getState().addStream('https://www.youtube.com/watch?v=test2')
+
+      const streamId1 = useStreamStore.getState().streams[0].id
+
+      useStreamStore.getState().toggleMute(streamId1)
+
+      const streams = useStreamStore.getState().streams
+      expect(streams[0].isMuted).toBe(true)
+      expect(streams[1].isMuted).toBeUndefined() // 変更されていない
+    })
+  })
 })

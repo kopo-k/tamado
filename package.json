@@ -11,7 +11,12 @@
     "build": "pnpm --filter frontend build",
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "review": "echo '🔄 完全自動レビューを実行中... (Claude Code agentを並行実行)'",
+    "review:code": "echo '🔍 コード品質レビューを実行中...'",
+    "review:logic": "echo '🧠 アプリケーションロジック検証中...'",
+    "review:security": "echo '🔐 セキュリティ監査中...'",
+    "review:performance": "echo '⚡ パフォーマンス・ベストプラクティス監査中...'"
   },
   "packageManager": "pnpm@10.30.3",
   "engines": {

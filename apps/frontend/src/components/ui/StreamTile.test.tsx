@@ -58,4 +58,55 @@ describe('StreamTile', () => {
     const iframe = screen.getByTitle(/player/i)
     expect(iframe).toHaveAttribute('src', 'https://player.twitch.tv/?channel=channelname&parent=localhost')
   })
+
+  it('音声ON時に音声OFFボタンが表示される', () => {
+    const props = {
+      ...defaultProps,
+      stream: { ...defaultProps.stream, isMuted: false },
+      onToggleMute: vi.fn(),
+    }
+    render(<StreamTile {...props} />)
+    expect(screen.getByRole('button', { name: /音声をOFFにする/i })).toBeInTheDocument()
+  })
+
+  it('音声OFF時に音声ONボタンが表示される', () => {
+    const props = {
+      ...defaultProps,
+      stream: { ...defaultProps.stream, isMuted: true },
+      onToggleMute: vi.fn(),
+    }
+    render(<StreamTile {...props} />)
+    expect(screen.getByRole('button', { name: /音声をONにする/i })).toBeInTheDocument()
+  })
+
+  it('音声切替ボタンをクリックすると onToggleMute が呼ばれる', async () => {
+    const onToggleMute = vi.fn()
+    const user = userEvent.setup()
+    const props = {
+      ...defaultProps,
+      stream: { ...defaultProps.stream, isMuted: false },
+      onToggleMute,
+    }
+
+    render(<StreamTile {...props} />)
+    await user.click(screen.getByRole('button', { name: /音声をOFFにする/i }))
+
+    expect(onToggleMute).toHaveBeenCalledTimes(1)
+  })
+
+  it('アクセシビリティ: 音声ON/OFFが aria-label で伝えられる', () => {
+    const propsUnmuted = {
+      ...defaultProps,
+      stream: { ...defaultProps.stream, isMuted: false },
+    }
+    const { container: containerUnmuted } = render(<StreamTile {...propsUnmuted} />)
+    expect(containerUnmuted.querySelector('[aria-label="音声ON"]')).toBeInTheDocument()
+
+    const propsMuted = {
+      ...defaultProps,
+      stream: { ...defaultProps.stream, isMuted: true },
+    }
+    const { container: containerMuted } = render(<StreamTile {...propsMuted} />)
+    expect(containerMuted.querySelector('[aria-label="音声OFF"]')).toBeInTheDocument()
+  })
 })
