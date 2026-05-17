@@ -225,7 +225,7 @@ describe('useStreamStore', () => {
 
       const streams = useStreamStore.getState().streams
       expect(streams[0].isMuted).toBe(true)
-      expect(streams[1].isMuted).toBeUndefined() // 変更されていない
+      expect(streams[1].isMuted).toBe(false) // 新規追加時は false で初期化
     })
   })
 })
