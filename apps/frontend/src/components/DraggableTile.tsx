@@ -12,6 +12,7 @@ type DraggableTileProps = {
 export function DraggableTile({ stream }: DraggableTileProps) {
   const removeStream = useStreamStore(s => s.removeStream)
   const updateStreamSize = useStreamStore(s => s.updateStreamSize)
+  const toggleMute = useStreamStore(s => s.toggleMute)
   const [isResizing, setIsResizing] = useState(false)
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: stream.id,
@@ -67,6 +68,7 @@ export function DraggableTile({ stream }: DraggableTileProps) {
       <StreamTile
         stream={stream}
         onRemove={() => removeStream(stream.id)}
+        onToggleMute={() => toggleMute(stream.id)}
         isDragging={isDragging || isResizing}
       />
 

@@ -12,6 +12,7 @@ export type Stream = {
   y: number
   width?: number
   height?: number
+  isMuted?: boolean
 }
 
 // サイズ制限
@@ -28,6 +29,7 @@ type StreamStore = {
   updateStreamSize: (id: string, width: number, height: number) => void
   applyAutoLayout: (containerWidth: number, containerHeight: number, gap?: number) => void
   setStreams: (streams: Stream[]) => void
+  toggleMute: (id: string) => void
 }
 
 export const useStreamStore = create<StreamStore>((set) => ({
@@ -47,6 +49,7 @@ export const useStreamStore = create<StreamStore>((set) => ({
         embedUrl,
         x: 0,
         y: 0,
+        isMuted: false,
       }],
     }))
     return true
@@ -79,6 +82,14 @@ export const useStreamStore = create<StreamStore>((set) => ({
 
   setStreams: (streams: Stream[]) => {
     set({ streams })
+  },
+
+  toggleMute: (id: string) => {
+    set(state => ({
+      streams: state.streams.map(s =>
+        s.id === id ? { ...s, isMuted: !s.isMuted } : s
+      ),
+    }))
   },
 
   applyAutoLayout: (containerWidth: number, containerHeight: number, gap: number = 0) => {
